@@ -1,0 +1,12 @@
+{
+  "domain": "imou_life",
+  "name": "Imou Life",
+  "documentation": "https://github.com/user2684/imou_life",
+  "issue_tracker": "https://github.com/user2684/imou_life/issues",
+  "dependencies": [],
+  "config_flow": true,
+  "codeowners": ["@user2684"],
+  "requirements": ["imouapi==0.1.4"],
+  "version": "0.1.0",
+  "iot_class": "cloud_polling"
+}

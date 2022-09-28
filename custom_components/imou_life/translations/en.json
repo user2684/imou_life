@@ -1,0 +1,49 @@
+{
+  "config": {
+    "step": {
+      "login": {
+        "title": "Login",
+        "data": {
+          "app_id": "Imou App ID",
+          "app_secret": "Imou App Secret",
+          "enable_discover": "Discover registered devices"
+        }
+      },
+      "discover": {
+        "title": "Discovered Devices",
+        "data": {
+          "discovered_device": "Select the device to add:",
+          "device_name": "Rename as"
+        }
+      },
+      "manual": {
+        "title": "Add Device",
+        "data": {
+          "device_id": "Device ID",
+          "device_name": "Rename as"
+        }
+      }
+    },
+    "error": {
+      "not_connected": "Action requested but not yet connected to the API",
+      "connection_failed": "Failed to connect to the API",
+      "invalid_configuration": "Invalid App Id or App Secret provided",
+      "not_authorized": "Not authorized to operate on the device or invalid device id",
+      "api_error": "Remote API error",
+      "invalid_reponse": "Malformed or unexpected API response",
+      "device_offline": "Device is offline",
+      "generic_error": "An unknown error occurred"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Polling interval (seconds)",
+          "api_url": "API Base URL",
+          "api_timeout": "API timeout (seconds)"
+        }
+      }
+    }
+  }
+}

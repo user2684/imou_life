@@ -1,0 +1,5 @@
+{
+  "name": "Home Assistant custom component for controlling Imou devices",
+  "hacs": "1.6.0",
+  "render_readme": true
+}

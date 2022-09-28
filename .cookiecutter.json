@@ -1,0 +1,11 @@
+{
+  "_output_dir": "/workspaces/homeassistant/cookie",
+  "_template": "gh:oncleben31/cookiecutter-homeassistant-custom-component",
+  "class_name_prefix": "ImouLife",
+  "domain_name": "imou_life",
+  "friendly_name": "Home Assistant custom component for controlling Imou devices",
+  "github_user": "user2684",
+  "project_name": "imou_life",
+  "test_suite": "no",
+  "version": "0.1.0"
+}
