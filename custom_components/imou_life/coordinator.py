@@ -1,9 +1,9 @@
 """Class to manage fetching data from the API."""
-import logging
 from datetime import timedelta
+import logging
+
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
-from homeassistant.helpers.update_coordinator import UpdateFailed
+from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from imouapi.device import ImouDevice
 from imouapi.exceptions import ImouException
 

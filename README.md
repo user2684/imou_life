@@ -81,7 +81,7 @@ The following options can be customized through the UI by clicking on the "Confi
 
 ## Limitations
 
-- The Imou API does not provide a stream of configuration events, for this reason the component periodically polls the devices, meaning if you change anthing from the Imou Life App, it could take a few minutes to be updated in HA
+- The Imou API does not provide a stream of configuration events, for this reason the component periodically polls the devices, meaning if you change anything from the Imou Life App, it could take a few minutes to be updated in HA
 
 ## Troubleshooting
 
