@@ -31,9 +31,17 @@ Installation can be done through [HACS custom repository](https://hacs.xyz/docs/
 5. Place the files you downloaded in the new directory (folder) you created.
 6. Restart Home Assistant
 
+This integration depends on the library `imouapi` for interacting with the end device. The library should be installed automatically by Home Assistante when initializing the integration.
+If this is not happening, install it manually with:
+
+```
+pip install imouapi
+```
+
 ## Requirements
 
 To interact with Imou API, valid `App Id` and `App Secret` are **required**.
+
 In order to get them:
 
 - Register an account on Imou Life if not done already
@@ -57,6 +65,7 @@ The configuration of the component is done entirely through the UI.
       - Optionally provide a name (otherwise the same name used in Imou Life will be used)
 
 Once done, you should see the integration added to Home Assistant, a new device and a few entities associated with it.
+
 The following entities are created:
 
 - Switches (only if supported by the remote device):
@@ -85,7 +94,17 @@ The following options can be customized through the UI by clicking on the "Confi
 
 ## Troubleshooting
 
-To enable debug logging on the component itself and on the library:
+If anything fails, you should find the error message and the full stack trace on your Home Assistant logs. This can be helpful for either troubleshoot the issue or reporting it.
+To gain more insights on what the component is doing or why is failing, you can enable debug logging:
+
+```
+logger:
+  default: info
+  logs:
+    custom_components.imou_life: debug
+```
+
+Since this integration depends on the library `imouapi` for interacting with the end device, you may want to enable debug level logging to the library itself:
 
 ```
 logger:
