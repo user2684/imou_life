@@ -17,23 +17,23 @@ jobs:
         shell: bash
         run: |
           name=$(find custom_components/ -type d -maxdepth 1 | tail -n 1 | cut -d "/" -f2)
-          echo "name: :$name"
+          echo "name: $name"
           echo "::set-output name=name::$name"
 
       - name: Get integration version from manifest
         id: version
         shell: bash
         run: |
-          manifestversion=$(jq -r '.version' custom_components/${{ steps.information.outputs.name }}/manifest.json)
-          echo "manifestversion: :$manifestversion"
-          echo "::set-output name=manifestversion::$manifestversion"
+          version=$(jq -r '.version' custom_components/${{ steps.information.outputs.name }}/manifest.json)
+          echo "version: $version"
+          echo "::set-output name=version::$version"
 
       - name: Get Changelog Entry
         id: changelog_reader
         uses: mindsers/changelog-reader-action@v2
         with:
           validation_depth: 10
-          version: ${{ steps.version.outputs.manifestversion }}
+          version: ${{ steps.version.outputs.version }}
           path: ./CHANGELOG.md
 
       - name: Create zip file for the integration
@@ -47,6 +47,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          name: ${{ steps.version.outputs.version }}
+          tag_name: ${{ steps.version.outputs.version }}
           body: ${{ steps.changelog_reader.outputs.changes }}
           files: "${{ github.workspace }}/custom_components/${{ steps.information.outputs.name }}/${{ steps.information.outputs.name }}.zip"
           draft: true
