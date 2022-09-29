@@ -12,10 +12,13 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v3.0.2
 
+      - name: Setup upterm session
+        uses: lhotari/action-upterm@v1
+
       - name: Get integration name
         id: information
         run: |
-          name=$(find ${{ github.workspace }}/custom_components/ -type d -maxdepth 1 | tail -n 1 | cut -d "/" -f2)
+          name=$(find custom_components/ -type d -maxdepth 1 | tail -n 1 | cut -d "/" -f2)
           echo "::set-output name=name::$name"
 
       - name: Get integration version from manifest
