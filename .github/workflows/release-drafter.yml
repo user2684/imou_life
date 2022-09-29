@@ -9,6 +9,9 @@ jobs:
     name: Release Drafter
     runs-on: ubuntu-latest
     steps:
+      - name: Check out the repository
+        uses: actions/checkout@v3.0.2
+
       - name: Get integration name
         id: information
         run: |
@@ -27,7 +30,7 @@ jobs:
         with:
           validation_depth: 10
           version: ${{ steps.version.outputs.manifestversion }}
-          path: ./CHANGELOG.md
+          path: ${{ github.workspace }}/CHANGELOG.md
 
       - name: Create zip file for the integration
         run: |
