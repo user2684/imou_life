@@ -15,7 +15,7 @@ jobs:
       - name: Get integration name
         id: information
         run: |
-          name=$(find custom_components/ -type d -maxdepth 1 | tail -n 1 | cut -d "/" -f2)
+          name=$(find ${{ github.workspace }}/custom_components/ -type d -maxdepth 1 | tail -n 1 | cut -d "/" -f2)
           echo "::set-output name=name::$name"
 
       - name: Get integration version from manifest
