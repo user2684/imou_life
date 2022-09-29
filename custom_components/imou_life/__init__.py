@@ -46,7 +46,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     app_id = entry.data.get(CONF_APP_ID)
     app_secret = entry.data.get(CONF_APP_SECRET)
     device_id = entry.data.get(CONF_DEVICE_ID)
-    _LOGGER.info("Setting up device %s (%s)", name, device_id)
+    _LOGGER.debug("Setting up device %s (%s)", name, device_id)
     _LOGGER.debug("Loading entry %s", entry.entry_id)
 
     # create an imou device instance

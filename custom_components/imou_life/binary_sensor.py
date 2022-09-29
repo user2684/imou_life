@@ -24,7 +24,7 @@ async def async_setup_entry(
     for sensor_instance in coordinator.device.get_sensors("binary_sensor"):
         sensor = ImouBinarySensor(coordinator, entry, sensor_instance)
         sensors.append(sensor)
-        _LOGGER.info(
+        _LOGGER.debug(
             "[%s] Adding %s", device.get_name(), sensor_instance.get_description()
         )
     async_add_devices(sensors)

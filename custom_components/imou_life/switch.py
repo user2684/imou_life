@@ -24,7 +24,7 @@ async def async_setup_entry(
     for sensor_instance in coordinator.device.get_sensors("switch"):
         sensor = ImouSwitch(coordinator, entry, sensor_instance)
         sensors.append(sensor)
-        _LOGGER.info(
+        _LOGGER.debug(
             "[%s] Adding %s", device.get_name(), sensor_instance.get_description()
         )
     async_add_devices(sensors)
@@ -68,7 +68,7 @@ class ImouSwitch(CoordinatorEntity, SwitchEntity):
         await self.sensor_instance.async_turn_on()
         # save the new state to the state machine (otherwise will be reset by HA and set to the correct value only upon the nexy update)
         self.async_write_ha_state()
-        _LOGGER.info(
+        _LOGGER.debug(
             "[%s] Turned %s ON",
             self.device.get_name(),
             self.sensor_instance.get_description(),
@@ -80,7 +80,7 @@ class ImouSwitch(CoordinatorEntity, SwitchEntity):
         await self.sensor_instance.async_turn_off()
         # save the new state to the state machine (otherwise will be reset by HA and set to the correct value only upon the nexy update)
         self.async_write_ha_state()
-        _LOGGER.info(
+        _LOGGER.debug(
             "[%s] Turned %s OFF",
             self.device.get_name(),
             self.sensor_instance.get_description(),
