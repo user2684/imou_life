@@ -12,8 +12,8 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v3.0.2
 
-      - name: Setup upterm session
-        uses: lhotari/action-upterm@v1
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
 
       - name: Get integration name
         id: information
