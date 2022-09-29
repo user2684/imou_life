@@ -1,4 +1,4 @@
-name: Draft a release note
+name: Release a new version
 on:
   push:
     branches:
@@ -14,14 +14,18 @@ jobs:
 
       - name: Get integration name
         id: information
+        shell: bash
         run: |
           name=$(find custom_components/ -type d -maxdepth 1 | tail -n 1 | cut -d "/" -f2)
+          echo "name: :$name"
           echo "::set-output name=name::$name"
 
       - name: Get integration version from manifest
         id: version
+        shell: bash
         run: |
           manifestversion=$(jq -r '.version' custom_components/${{ steps.information.outputs.name }}/manifest.json)
+          echo "manifestversion: :$manifestversion"
           echo "::set-output name=manifestversion::$manifestversion"
 
       - name: Get Changelog Entry
