@@ -68,11 +68,8 @@ Once done, you should see the integration added to Home Assistant, a new device 
 
 The following entities are created:
 
-- Switches (only if supported by the remote device):
-  - Motion detection
-  - Head detection (Human detection)
-  - Abnormal alarm sound
-  - Breathing light (indicator light)
+- Switches:
+  - All of those supported by the remote device
 - Sensor:
   - Time of the last alarm
 - Binary Sensor:
@@ -91,6 +88,8 @@ The following options can be customized through the UI by clicking on the "Confi
 ## Limitations
 
 - The Imou API does not provide a stream of configuration events, for this reason the component periodically polls the devices, meaning if you change anything from the Imou Life App, it could take a few minutes to be updated in HA
+- For every new device to be added, AppId and AppSecret are requested
+- Advanced options can be changed only after having added the device
 
 ## Troubleshooting
 

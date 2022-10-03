@@ -4,6 +4,7 @@ import logging
 from homeassistant import config_entries
 from homeassistant.core import callback
 from homeassistant.helpers.aiohttp_client import async_create_clientsession
+from imouapi.api import ImouAPIClient
 from imouapi.device import ImouDevice, ImouDiscoverService
 from imouapi.exceptions import ImouException
 import voluptuous as vol
@@ -35,8 +36,9 @@ class ImouFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         """Initialize."""
         self._app_id = None
         self._app_secret = None
-        self._session = None
+        self._api_client = None
         self._discover_service = None
+        self._session = None
         self._discovered_devices = {}
         self._errors = {}
 
@@ -50,13 +52,15 @@ class ImouFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         """Ask and validate app id and app secret."""
         self._errors = {}
         if user_input is not None:
-            # check if the provided credentails are working
-            self._discover_service = ImouDiscoverService(
+            # create an imou discovery service
+            self._api_client = ImouAPIClient(
                 user_input[CONF_APP_ID], user_input[CONF_APP_SECRET], self._session
             )
+            self._discover_service = ImouDiscoverService(self._api_client)
             valid = False
+            # check if the provided credentails are working
             try:
-                await self._discover_service.async_connect()
+                await self._api_client.async_connect()
                 valid = True
             except ImouException as exception:
                 self._errors["base"] = exception.get_title()
@@ -71,6 +75,7 @@ class ImouFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                     return await self.async_step_discover()
                 else:
                     return await self.async_step_manual()
+
         # by default show up the form
         return self.async_show_form(
             step_id="login",
@@ -108,6 +113,7 @@ class ImouFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                     CONF_DEVICE_ID: device.get_device_id(),
                 }
                 return self.async_create_entry(title=name, data=data)
+
         # discover registered devices
         try:
             self._discovered_devices = (
@@ -135,16 +141,11 @@ class ImouFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         """Manually add a device by its device id."""
         self._errors = {}
         if user_input is not None:
-            # check if the provided credentails are working
-            device = ImouDevice(
-                self._app_id,
-                self._app_secret,
-                user_input[CONF_DEVICE_ID],
-                self._session,
-            )
+            # create an imou device instance
+            device = ImouDevice(self._api_client, user_input[CONF_DEVICE_ID])
             valid = False
+            # check if the provided credentails are working
             try:
-                await device.async_connect()
                 await device.async_initialize()
                 valid = True
             except ImouException as exception:
@@ -167,7 +168,8 @@ class ImouFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                     CONF_DEVICE_ID: user_input[CONF_DEVICE_ID],
                 }
                 return self.async_create_entry(title=name, data=data)
-        # by default show up the form again
+
+        # by default show up the form
         return self.async_show_form(
             step_id="manual",
             data_schema=vol.Schema(

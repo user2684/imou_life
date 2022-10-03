@@ -11,7 +11,9 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import Config, HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
+from imouapi.api import ImouAPIClient
 from imouapi.device import ImouDevice
+from imouapi.exceptions import ImouException
 
 from .const import (
     CONF_APP_ID,
@@ -42,20 +44,36 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     session = async_get_clientsession(hass)
 
     # retrieve the configuration entry parameters
+    _LOGGER.debug("Loading entry %s", entry.entry_id)
     name = entry.data.get(CONF_DEVICE_NAME)
     app_id = entry.data.get(CONF_APP_ID)
     app_secret = entry.data.get(CONF_APP_SECRET)
     device_id = entry.data.get(CONF_DEVICE_ID)
     _LOGGER.debug("Setting up device %s (%s)", name, device_id)
-    _LOGGER.debug("Loading entry %s", entry.entry_id)
 
-    # create an imou device instance
+    # create an imou api client instance
+    api_client = ImouAPIClient(app_id, app_secret, session)
     base_url = entry.options.get(OPTION_API_URL, None)
     timeout = entry.options.get(OPTION_API_TIMEOUT, None)
-    device = ImouDevice(app_id, app_secret, device_id, session, base_url, timeout)
-    device.enable_sensors(False)
+    if base_url is not None:
+        api_client.set_base_url(base_url)
+    if timeout is not None:
+        api_client.set_timeout(timeout)
+
+    # create an imou device instance
+    device = ImouDevice(api_client, device_id)
     if name is not None:
         device.set_name(name)
+
+    # initialize the device so to discover all the sensors
+    try:
+        await device.async_initialize()
+    except ImouException as exception:
+        _LOGGER.error(exception.to_string())
+        raise ImouException() from exception
+    # at this time, all sensors must be disabled (will be enabled individually by async_added_to_hass())
+    for sensor_instance in device.get_all_sensors():
+        sensor_instance.set_enabled(False)
 
     # create a coordinator
     coordinator = ImouDataUpdateCoordinator(
