@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.3] (2022-10-04)
+
+### Changed
+
+- Bump imouapi version: 0.2.0 → 0.2.1
+
 ## [0.1.2] (2022-10-03)
 
 ### Added
