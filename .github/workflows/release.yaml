@@ -2,6 +2,9 @@ name: Run tests
 
 on:
   push:
+    branches:
+      - main
+      - master
   pull_request:
 
 env:
@@ -79,3 +82,41 @@ jobs:
 
       - name: Hassfest validation
         uses: "home-assistant/actions/hassfest@master"
+
+  draft_release:
+    name: Release Drafter
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v3.0.2
+
+      - name: Get integration name
+        id: information
+        shell: bash
+        run: |
+          name=$(find custom_components/ -type d -maxdepth 1 | tail -n 1 | cut -d "/" -f2)
+          echo "name: $name"
+          echo "::set-output name=name::$name"
+
+      - name: Get integration version from manifest
+        id: version
+        shell: bash
+        run: |
+          version=$(jq -r '.version' custom_components/${{ steps.information.outputs.name }}/manifest.json)
+          echo "version: $version"
+          echo "::set-output name=version::$version"
+
+      - name: Get Changelog Entry
+        id: changelog_reader
+        uses: mindsers/changelog-reader-action@v2
+        with:
+          validation_depth: 10
+          version: ${{ steps.version.outputs.version }}
+          path: ./CHANGELOG.md
+
+      - name: Create zip file for the integration
+        run: |
+          cd "${{ github.workspace }}/custom_components/${{ steps.information.outputs.name }}"
+          zip ${{ steps.information.outputs.name }}.zip -r ./
+
+      - name: draft github release
