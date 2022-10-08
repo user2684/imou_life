@@ -1,4 +1,4 @@
-name: Run tests
+name: Test and publish a new release
 
 on:
   push:
@@ -120,3 +120,14 @@ jobs:
           zip ${{ steps.information.outputs.name }}.zip -r ./
 
       - name: draft github release
+        id: draft_release
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          name: ${{ steps.version.outputs.version }}
+          tag_name: ${{ steps.version.outputs.version }}
+          body: ${{ steps.changelog_reader.outputs.changes }}
+          files: "${{ github.workspace }}/custom_components/${{ steps.information.outputs.name }}/${{ steps.information.outputs.name }}.zip"
+          draft: true
+          prerelease: false
