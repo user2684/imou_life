@@ -1,0 +1,1 @@
+"""imou_life integration."""

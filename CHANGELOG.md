@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.1.4] (2022-10-08)
+
+### Added
+
+- Test suite
+
+### Changed
+
+- Bump imouapi version: 0.2.1 → 0.2.2
+
 ## [0.1.3] (2022-10-04)
 
 ### Changed
