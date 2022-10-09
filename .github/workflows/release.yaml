@@ -57,7 +57,6 @@ jobs:
             --durations=10 \
             -n auto \
             -p no:sugar \
-            --cov-fail-under=80 \
             tests
 
   hacs:
