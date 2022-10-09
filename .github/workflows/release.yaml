@@ -38,14 +38,18 @@ jobs:
 
   tests:
     runs-on: "ubuntu-latest"
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.8, 3.9]
     name: Run tests
     steps:
       - name: Check out code from GitHub
         uses: "actions/checkout@v2.3.4"
-      - name: Setup Python {{ "${{ env.DEFAULT_PYTHON }}" }}
+      - name: Setup Python ${{ matrix.python-version }}
         uses: "actions/setup-python@v2.2.1"
         with:
-          python-version: ${{ env.DEFAULT_PYTHON }}
+          python-version: ${{ matrix.python-version }}
       - name: Install requirements
         run: |
           pip install --constraint=.github/workflows/constraints.txt pip
