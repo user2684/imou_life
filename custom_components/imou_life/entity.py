@@ -1,6 +1,7 @@
 """entity sensor platform for Imou."""
 import logging
 
+from homeassistant.helpers.entity import async_generate_entity_id
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from imouapi.exceptions import ImouException
 
@@ -12,12 +13,17 @@ _LOGGER: logging.Logger = logging.getLogger(__package__)
 class ImouEntity(CoordinatorEntity):
     """imou entity class."""
 
-    def __init__(self, coordinator, config_entry, sensor_instance):
+    def __init__(self, coordinator, config_entry, sensor_instance, entity_format):
         """Initialize."""
         super().__init__(coordinator)
         self.config_entry = config_entry
         self.device = coordinator.device
         self.sensor_instance = sensor_instance
+        self.entity_id = async_generate_entity_id(
+            entity_format,
+            f"{self.device.get_name()}_{self.sensor_instance.get_name()}",
+            hass=coordinator.hass,
+        )
 
     @property
     def unique_id(self):

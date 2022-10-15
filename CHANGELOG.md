@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.0] (2022-10-15)
+
+### Changed
+
+- Bump imouapi version: 0.2.2 → 1.0.0
+- Entity ID names are now based on the name of the sensor and not on the description
+
 ## [0.1.4] (2022-10-08)
 
 ### Added

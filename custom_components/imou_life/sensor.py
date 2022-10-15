@@ -2,6 +2,7 @@
 from collections.abc import Callable
 import logging
 
+from homeassistant.components.sensor import ENTITY_ID_FORMAT
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 
@@ -20,7 +21,7 @@ async def async_setup_entry(
     device = coordinator.device
     sensors = []
     for sensor_instance in coordinator.device.get_sensors_by_platform("sensor"):
-        sensor = ImouSensor(coordinator, entry, sensor_instance)
+        sensor = ImouSensor(coordinator, entry, sensor_instance, ENTITY_ID_FORMAT)
         sensors.append(sensor)
         _LOGGER.debug(
             "[%s] Adding %s", device.get_name(), sensor_instance.get_description()
