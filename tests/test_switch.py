@@ -47,7 +47,7 @@ async def test_switch(hass, api_ok):
         await hass.services.async_call(
             "switch",
             SERVICE_TURN_ON,
-            service_data={ATTR_ENTITY_ID: "switch.device_name_motion_detection"},
+            service_data={ATTR_ENTITY_ID: "switch.device_name_motiondetect"},
             blocking=True,
         )
     assert turn_on_func.called
@@ -64,7 +64,7 @@ async def test_switch(hass, api_ok):
         await hass.services.async_call(
             "switch",
             SERVICE_TURN_OFF,
-            service_data={ATTR_ENTITY_ID: "switch.device_name_motion_detection"},
+            service_data={ATTR_ENTITY_ID: "switch.device_name_motiondetect"},
             blocking=True,
         )
     assert turn_off_func.called
