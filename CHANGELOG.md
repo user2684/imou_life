@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.1] (2022-10-16)
+
+### Added
+
+- Download diagnostics capability
+
 ## [1.0.0] (2022-10-15)
 
 ### Changed
