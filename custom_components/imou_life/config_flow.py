@@ -20,6 +20,8 @@ from .const import (
     DOMAIN,
     OPTION_API_TIMEOUT,
     OPTION_API_URL,
+    OPTION_CALLBACK_URL,
+    OPTION_CALLBACK_WEBHOOK,
     OPTION_SCAN_INTERVAL,
 )
 
@@ -212,8 +214,22 @@ class ImouOptionsFlowHandler(config_entries.OptionsFlow):
                             OPTION_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL
                         ),
                     ): int,
-                    vol.Optional(OPTION_API_URL): str,
-                    vol.Optional(OPTION_API_TIMEOUT): str,
+                    vol.Optional(
+                        OPTION_API_URL,
+                        default=self.options.get(OPTION_API_URL, ""),
+                    ): str,
+                    vol.Optional(
+                        OPTION_API_TIMEOUT,
+                        default=self.options.get(OPTION_API_TIMEOUT, ""),
+                    ): str,
+                    vol.Optional(
+                        OPTION_CALLBACK_WEBHOOK,
+                        default=self.options.get(OPTION_CALLBACK_WEBHOOK, ""),
+                    ): str,
+                    vol.Optional(
+                        OPTION_CALLBACK_URL,
+                        default=self.options.get(OPTION_CALLBACK_URL, ""),
+                    ): str,
                 }
             ),
         )

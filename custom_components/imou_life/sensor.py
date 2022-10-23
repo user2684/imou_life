@@ -35,7 +35,16 @@ class ImouSensor(ImouEntity):
     @property
     def device_class(self) -> str:
         """Device device class."""
-        return self.sensor_instance.get_device_class()
+        if self.sensor_instance.get_name() == "lastAlarm":
+            return "timestamp"
+        return None
+
+    @property
+    def unit_of_measurement(self) -> str:
+        """Provide unit of measurement."""
+        if self.sensor_instance.get_name() == "storageUsed":
+            return "%"
+        return None
 
     @property
     def state(self):

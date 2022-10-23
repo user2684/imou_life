@@ -41,7 +41,9 @@
         "data": {
           "scan_interval": "Polling interval (seconds)",
           "api_url": "API Base URL",
-          "api_timeout": "API timeout (seconds)"
+          "api_timeout": "API timeout (seconds)",
+          "callback_webhook": "Callback Webhook ID",
+          "callback_url": "Callback full URL"
         }
       }
     }

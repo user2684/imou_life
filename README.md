@@ -15,6 +15,7 @@ Once an Imou device is added to Home Assistant, switches can be controlled throu
 - Configuration through the UI
 - Auto discover registered devices
 - Auto discover device capabilities and supported switches
+- Sensors, binary sensors and select to control key features of each device
 
 ## Installation
 
@@ -35,7 +36,7 @@ This integration depends on the library `imouapi` for interacting with the end d
 If this is not happening, install it manually with:
 
 ```
-pip install imouapi
+pip3 install imouapi
 ```
 
 ## Requirements
@@ -66,24 +67,56 @@ The configuration of the component is done entirely through the UI.
 
 Once done, you should see the integration added to Home Assistant, a new device and a few entities associated with it.
 
-The following entities are created:
+The following entities are created (if supported by the device):
 
 - Switches:
   - All of those supported by the remote device
+  - Push notifications (see below)
 - Sensor:
   - Time of the last alarm
+  - Storage Used
 - Binary Sensor:
   - Online
+- Select:
+  - Night Vision Mode
 
 If you need to add another device, repeat the process above.
 
-## Advanced Options
+## Push Notifications
+
+Upon an event occurs (e.g. alarm, device offline, etc.) a realtime notification can be sent by the Imou API directly to your Home Assistance instance so you can immediately react upon it.
+Since this is happening via a direct HTTP call to your instance, your Home Assistance must be [exposed to the Internet](https://www.home-assistant.io/docs/configuration/remote/) as a requirement.
+Please note, for Imou API, push notification is a global configuration, not per device, meaning once enabled on one device it applies to ALL devices registered in your Imou account.
+To enable push notifications:
+
+- Ensure Home Assistant is exposed over the Internet and you have implemented the [security checklists](https://www.home-assistant.io/docs/configuration/securing/)
+- In Home Assistant, add at least a device through the Imou Life integration
+- Go to "Settings", "Devices & Services", select your Imou Life integration and click on "Configure"
+- In the "Callback Webhook ID" add in a random string difficult to guess such as `imou_life_callback_123jkls` and save. This will be name of the webhook which will be called when an event occurs.
+- Visit the Device page, you should see a "Push Notifications" switch
+- Enable the switch. Please remember this is a global configuration, you just need to do it once and on a SINGLE device only
+- Go to "Settings", "Automation & Scenes" and click on "Create Auitomation". Select "Start with an empty automation"
+- In Triggers, click on "Add Trigger" and select "Webhook". In Webhook ID write down the webhook ID previously configured (e.g. `imou_life_callback_123jkls`)
+- Save the automation. The Imou API will call this webhook so triggering the automation upon each event
+- Make the device firing an event and review in "Traces" if it has triggered and which data has been passed along in "Changed Variables"
+- Refine your automation. you can then react based on the data passed along in `trigger.json`
+
+Please note that:
+
+- Imou API documentation details both [the type of the messages](https://open.imoulife.com/book/push/alarm.html) you can receive as well as their [formats](https://open.imoulife.com/book/push/event.html). However reviewing the automation traces could be a quicker and easier way to understand which information you are receiving
+- If the integration struggles in identifying the external URL of your Home Assisstance instance or you want use a custom url, provide the full url to use in "Options", "Callback Full URL". When a callback full urls is set, any webhook ID is ignored
+- The API for enabling/disabling push notification is currently limited to 10 times per day by Imou so do not perform too many consecutive changes
+- In Home Assistant you cannot have more than one webhook trigger with the same ID
+
+## Options
 
 The following options can be customized through the UI by clicking on the "Configure" link:
 
-- Polling interval (seconds) - default 15 minutes
-- API Base URL - default https://openapi.easy4ip.com/openapi
-- API Timeout - default 10 seconds
+- Polling interval - how often to refresh the data (in seconds, default 15 minutes)
+- API Base URL - th url of the Imou Life API (default https://openapi.easy4ip.com/openapi)
+- API Timeout - API call timeout in seconds (default 10 seconds)
+- Callback Webhook ID - when push notifications are enabled, the webhook ID which will be used in automation
+- Callback Full URL - when push notifications are enabled, full url to use as a callback. Takes precedence over any configured webhook ID
 
 ## Limitations
 
@@ -94,6 +127,8 @@ The following options can be customized through the UI by clicking on the "Confi
 ## Troubleshooting
 
 If anything fails, you should find the error message and the full stack trace on your Home Assistant logs. This can be helpful for either troubleshoot the issue or reporting it.
+Diagnostics information is as well provided by visiting the device page in Home Assistant and clicking on "Download Diagnostics".
+
 To gain more insights on what the component is doing or why is failing, you can enable debug logging:
 
 ```
@@ -112,3 +147,8 @@ logger:
     custom_components.imou_life: debug
     imouapi: debug
 ```
+
+## Bugs or feature requests
+
+Bugs and feature requests can be reported through Github Issues.
+When reporting bugs, ensure to include also diagnostics and debug logs. Please review those logs to redact any potential sensitive information before submitting the request.

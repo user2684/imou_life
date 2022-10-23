@@ -55,9 +55,13 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     api_client = ImouAPIClient(app_id, app_secret, session)
     base_url = entry.options.get(OPTION_API_URL, None)
     timeout = entry.options.get(OPTION_API_TIMEOUT, None)
-    if base_url is not None:
+    if isinstance(timeout, str):
+        timeout = None if timeout == "" else int(timeout)
+    if base_url is not None and base_url != "":
+        _LOGGER.debug("Setting API base url to %s", base_url)
         api_client.set_base_url(base_url)
     if timeout is not None:
+        _LOGGER.debug("Setting API timeout to %d", timeout)
         api_client.set_timeout(timeout)
 
     # create an imou device instance
