@@ -1,0 +1,51 @@
+{
+  "config": {
+    "step": {
+      "login": {
+        "title": "Login",
+        "data": {
+          "app_id": "ID do app Imou",
+          "app_secret": "Secret do app Imou",
+          "enable_discover": "Descubra dispositivos registrados"
+        }
+      },
+      "discover": {
+        "title": "Dispositivos descobertos",
+        "data": {
+          "discovered_device": "Selecione o dispositivo para adicionar:",
+          "device_name": "Renomear como"
+        }
+      },
+      "manual": {
+        "title": "Adicionar Dispositivo",
+        "data": {
+          "device_id": "ID de dispositivo",
+          "device_name": "Renomear como"
+        }
+      }
+    },
+    "error": {
+      "not_connected": "Ação solicitada, mas ainda não conectada à API",
+      "connection_failed": "Falha ao conectar-se à API",
+      "invalid_configuration": "ID de app inválido ou secret de app fornecido inválido",
+      "not_authorized": "Não autorizado a operar no dispositivo ou ID de dispositivo inválido",
+      "api_error": "Erro de API remota",
+      "invalid_reponse": "Resposta de API malformada ou inesperada",
+      "device_offline": "O dispositivo está offline",
+      "generic_error": "Ocorreu um erro desconhecido"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Intervalo de escaneamento (segundos)",
+          "api_url": "URL base da API",
+          "api_timeout": "Tempo limite da API (segundos)",
+          "callback_webhook": "ID do webhook de retorno de chamada",
+          "callback_url": "URL completa de retorno de chamada"
+        }
+      }
+    }
+  }
+}
