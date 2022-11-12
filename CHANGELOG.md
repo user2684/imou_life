@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.4] (2022-11-12)
+### Added
+- Brazilian Portuguese Translation
+- HACS Default repository
+### Changed
+- Split Github action into test (on PR and push) and release (manual)
+
 ## [1.0.3] (2022-10-23)
 ### Added
 - Support white light on motion switch through imouapi

@@ -1,5 +1,6 @@
 # Home Assistant custom component for controlling Imou devices
 
+[![hacs_badge](https://img.shields.io/badge/HACS-Default-41BDF5.svg)](https://github.com/hacs/integration)
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/integration)
 [![Donate](https://img.shields.io/badge/donate-BuyMeCoffee-yellow.svg)](https://www.buymeacoffee.com/user2684)
 
@@ -118,11 +119,12 @@ The following options can be customized through the UI by clicking on the "Confi
 - Callback Webhook ID - when push notifications are enabled, the webhook ID which will be used in automation
 - Callback Full URL - when push notifications are enabled, full url to use as a callback. Takes precedence over any configured webhook ID
 
-## Limitations
+## Limitations / Known Issues
 
 - The Imou API does not provide a stream of configuration events, for this reason the component periodically polls the devices, meaning if you change anything from the Imou Life App, it could take a few minutes to be updated in HA
 - For every new device to be added, AppId and AppSecret are requested
 - Advanced options can be changed only after having added the device
+- Push notifications are not working, investigation is in progress
 
 ## Troubleshooting
 

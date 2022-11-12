@@ -7,6 +7,6 @@
   "config_flow": true,
   "codeowners": ["@user2684"],
   "requirements": ["imouapi==1.0.4"],
-  "version": "1.0.3",
+  "version": "1.0.4",
   "iot_class": "cloud_polling"
 }
