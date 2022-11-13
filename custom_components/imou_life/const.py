@@ -1,7 +1,7 @@
 """Constants."""
 # Internal constants
 DOMAIN = "imou_life"
-PLATFORMS = ["switch", "sensor", "binary_sensor", "select"]
+PLATFORMS = ["switch", "sensor", "binary_sensor", "select", "button"]
 
 # Configuration definitions
 CONF_DEVICE_NAME = "device_name"
@@ -14,8 +14,6 @@ OPTION_SCAN_INTERVAL = "scan_interval"
 OPTION_API_URL = "api_url"
 OPTION_API_TIMEOUT = "api_timeout"
 OPTION_CALLBACK_URL = "callback_url"
-OPTION_CALLBACK_WEBHOOK = "callback_webhook"
-
 
 # Defaults
 DEFAULT_SCAN_INTERVAL = 15 * 60
@@ -32,6 +30,7 @@ ENABLED_SWITCHES = [
     "smartTrack",
     "linkagewhitelight",
     "pushNotifications",
+    "siren",
 ]
 
 # icons of the sensors
@@ -40,6 +39,7 @@ SENSOR_ICONS = {
     # sensors
     "lastAlarm": "mdi:timer",
     "storageUsed": "mdi:harddisk",
+    "callbackUrl": "mdi:phone-incoming",
     # binary sensors
     "online": "mdi:lan-connect",
     # select
@@ -55,4 +55,8 @@ SENSOR_ICONS = {
     "smartTrack": "mdi:radar",
     "linkagewhitelight": "mdi:light-flood-down",
     "pushNotifications": "mdi:webhook",
+    "siren": "mdi:alarm-light",
+    # buttons
+    "restartDevice": "mdi:restart",
+    "refreshData": "mdi:refresh",
 }

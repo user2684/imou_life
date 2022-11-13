@@ -49,4 +49,6 @@ class ImouSensor(ImouEntity):
     @property
     def state(self):
         """Return the state of the sensor."""
+        if self.sensor_instance.get_state() is None:
+            self.entity_available = False
         return self.sensor_instance.get_state()

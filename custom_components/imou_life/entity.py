@@ -24,6 +24,7 @@ class ImouEntity(CoordinatorEntity):
             f"{self.device.get_name()}_{self.sensor_instance.get_name()}",
             hass=coordinator.hass,
         )
+        self.entity_available = None
 
     @property
     def unique_id(self):
@@ -44,7 +45,11 @@ class ImouEntity(CoordinatorEntity):
 
     @property
     def available(self) -> bool:
-        """Device available."""
+        """Entity available."""
+        # if the availability of the sensor is set, return it
+        if self.entity_available is not None:
+            return self.entity_available
+        # otherwise return the availability of the device
         return self.coordinator.device.is_online()
 
     @property

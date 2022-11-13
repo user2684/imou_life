@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.0.5] (2022-11-13)
+### Added
+- Switch for turning the Siren on/off for those devices supporting it
+- Buttons for restarting the device and manually refreshing device data in Home Assistant
+- Sensor with the callback url set for push notifications
+### Changed
+- Bump imouapi version: 1.0.5 → 1.0.5
+- Reviewed instructions for setting up push notifications
+- Updated README with Roadmap
+- Deprecated "Callback Webhook ID" option for push notifications, use "Callback URL" instead
+- Reviewed switches' labels
+### Fixed
+- Storage left sensor without SD card now reporting Unknown
+
 ## [1.0.4] (2022-11-12)
 ### Added
 - Brazilian Portuguese Translation

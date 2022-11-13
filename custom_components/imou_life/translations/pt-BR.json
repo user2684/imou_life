@@ -42,8 +42,7 @@
           "scan_interval": "Intervalo de escaneamento (segundos)",
           "api_url": "URL base da API",
           "api_timeout": "Tempo limite da API (segundos)",
-          "callback_webhook": "ID do webhook de retorno de chamada",
-          "callback_url": "URL completa de retorno de chamada"
+          "callback_url": "URL de retorno de chamada"
         }
       }
     }

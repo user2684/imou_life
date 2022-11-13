@@ -13,7 +13,6 @@ from custom_components.imou_life.const import (
     OPTION_API_TIMEOUT,
     OPTION_API_URL,
     OPTION_CALLBACK_URL,
-    OPTION_CALLBACK_WEBHOOK,
     OPTION_SCAN_INTERVAL,
 )
 
@@ -144,7 +143,6 @@ async def test_options_flow(hass):
             OPTION_SCAN_INTERVAL: 30,
             OPTION_API_URL: "test",
             OPTION_API_TIMEOUT: "20",
-            OPTION_CALLBACK_WEBHOOK: "webhook",
             OPTION_CALLBACK_URL: "url",
         },
     )
@@ -154,5 +152,4 @@ async def test_options_flow(hass):
     assert entry.options[OPTION_SCAN_INTERVAL] == 30
     assert entry.options[OPTION_API_URL] == "test"
     assert entry.options[OPTION_API_TIMEOUT] == "20"
-    assert entry.options[OPTION_CALLBACK_WEBHOOK] == "webhook"
     assert entry.options[OPTION_CALLBACK_URL] == "url"

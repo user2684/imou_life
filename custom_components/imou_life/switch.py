@@ -5,14 +5,8 @@ import logging
 from homeassistant.components.switch import ENTITY_ID_FORMAT, SwitchEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers import network
 
-from .const import (
-    DOMAIN,
-    ENABLED_SWITCHES,
-    OPTION_CALLBACK_URL,
-    OPTION_CALLBACK_WEBHOOK,
-)
+from .const import DOMAIN, ENABLED_SWITCHES, OPTION_CALLBACK_URL
 from .entity import ImouEntity
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
@@ -59,26 +53,8 @@ class ImouSwitch(ImouEntity, SwitchEntity):
                 and self.config_entry.options[OPTION_CALLBACK_URL] != ""
             ):
                 callback_url = self.config_entry.options[OPTION_CALLBACK_URL]
-            # if a webhook id is provided in the options, build the url
-            elif (
-                OPTION_CALLBACK_WEBHOOK in self.config_entry.options
-                and self.config_entry.options[OPTION_CALLBACK_WEBHOOK] != ""
-            ):
-                external_url = None
-                # get Home Assistant external url
-                try:
-                    external_url = network.get_url(
-                        self.hass,
-                        allow_internal=False,
-                        allow_ip=True,
-                        require_ssl=False,
-                    )
-                except network.NoURLAvailableError as exception:
-                    raise Exception("Unable to determine external url") from exception
-                # build the callback url
-                callback_url = f"{external_url}/api/webhook/{self.config_entry.options[OPTION_CALLBACK_WEBHOOK]}"
             if callback_url is None:
-                raise Exception("No callback url or webhook id provided")
+                raise Exception("No callback url provided")
             _LOGGER.debug("Callback URL: %s", callback_url)
             await self.sensor_instance.async_turn_on(url=callback_url)
         # control all other switches
