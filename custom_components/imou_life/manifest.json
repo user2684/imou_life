@@ -6,7 +6,7 @@
   "dependencies": [],
   "config_flow": true,
   "codeowners": ["@user2684"],
-  "requirements": ["imouapi==1.0.5"],
-  "version": "1.0.5",
+  "requirements": ["imouapi==1.0.6"],
+  "version": "1.0.6",
   "iot_class": "cloud_polling"
 }

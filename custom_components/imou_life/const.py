@@ -42,6 +42,7 @@ SENSOR_ICONS = {
     "callbackUrl": "mdi:phone-incoming",
     # binary sensors
     "online": "mdi:lan-connect",
+    "motionAlarm": "mdi:motion-sensor",
     # select
     "nightVisionMode": "mdi:weather-night",
     # switches
@@ -59,4 +60,5 @@ SENSOR_ICONS = {
     # buttons
     "restartDevice": "mdi:restart",
     "refreshData": "mdi:refresh",
+    "refreshAlarm": "mdi:refresh",
 }

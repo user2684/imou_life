@@ -64,6 +64,11 @@ class ImouEntity(CoordinatorEntity):
             return SENSOR_ICONS[self.sensor_instance.get_name()]
         return SENSOR_ICONS["__default__"]
 
+    @property
+    def extra_state_attributes(self):
+        """State attributes."""
+        return self.sensor_instance.get_attributes()
+
     async def async_added_to_hass(self):
         """Entity added to HA (at startup or when re-enabled)."""
         await super().async_added_to_hass()

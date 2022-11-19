@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.6] (2022-11-19)
+### Added
+- `motionDetection` binary sensor which can be updated also via the `refreshAlarm` button
+## Removed
+- `lastAlarm` sensor. The same information has been moved into the `alarm_time` attribute inside the `motionDetection` binary sensor, together with `alarm_type` and  `alarm_code`
+### Changed
+- Bump imouapi version: 1.0.5 → 1.0.6
+- Updated README and link to the roadmap
+
 ## [1.0.5] (2022-11-13)
 ### Added
 - Switch for turning the Siren on/off for those devices supporting it
