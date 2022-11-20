@@ -82,6 +82,6 @@ class ImouEntity(CoordinatorEntity):
 
     async def async_will_remove_from_hass(self):
         """Entity removed from HA (when disabled)."""
-        await super().async_added_to_hass()
+        await super().async_will_remove_from_hass()
         _LOGGER.debug("%s removed from HA", self.name)
         self.sensor_instance.set_enabled(False)

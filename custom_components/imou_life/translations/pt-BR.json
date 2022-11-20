@@ -4,6 +4,7 @@
       "login": {
         "title": "Login",
         "data": {
+          "api_url": "URL base da API",
           "app_id": "ID do app Imou",
           "app_secret": "Secret do app Imou",
           "enable_discover": "Descubra dispositivos registrados"
@@ -40,7 +41,6 @@
       "init": {
         "data": {
           "scan_interval": "Intervalo de escaneamento (segundos)",
-          "api_url": "URL base da API",
           "api_timeout": "Tempo limite da API (segundos)",
           "callback_url": "URL de retorno de chamada"
         }

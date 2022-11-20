@@ -10,16 +10,17 @@ from imouapi.exceptions import ImouException
 import voluptuous as vol
 
 from .const import (
+    CONF_API_URL,
     CONF_APP_ID,
     CONF_APP_SECRET,
     CONF_DEVICE_ID,
     CONF_DEVICE_NAME,
     CONF_DISCOVERED_DEVICE,
     CONF_ENABLE_DISCOVER,
+    DEFAULT_API_URL,
     DEFAULT_SCAN_INTERVAL,
     DOMAIN,
     OPTION_API_TIMEOUT,
-    OPTION_API_URL,
     OPTION_CALLBACK_URL,
     OPTION_SCAN_INTERVAL,
 )
@@ -30,11 +31,12 @@ _LOGGER: logging.Logger = logging.getLogger(__package__)
 class ImouFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
     """Config flow for imou."""
 
-    VERSION = 1
+    VERSION = 2
     CONNECTION_CLASS = config_entries.CONN_CLASS_CLOUD_POLL
 
     def __init__(self):
         """Initialize."""
+        self._api_url = None
         self._app_id = None
         self._app_secret = None
         self._api_client = None
@@ -57,6 +59,7 @@ class ImouFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             self._api_client = ImouAPIClient(
                 user_input[CONF_APP_ID], user_input[CONF_APP_SECRET], self._session
             )
+            self._api_client.set_base_url(user_input[CONF_API_URL])
             self._discover_service = ImouDiscoverService(self._api_client)
             valid = False
             # check if the provided credentails are working
@@ -69,6 +72,7 @@ class ImouFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             # valid credentials provided
             if valid:
                 # store app id and secret for later steps
+                self._api_url = user_input[CONF_API_URL]
                 self._app_id = user_input[CONF_APP_ID]
                 self._app_secret = user_input[CONF_APP_SECRET]
                 # if discover is requested run the discover step, otherwise the manual step
@@ -82,6 +86,7 @@ class ImouFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             step_id="login",
             data_schema=vol.Schema(
                 {
+                    vol.Required(CONF_API_URL, default=DEFAULT_API_URL): str,
                     vol.Required(CONF_APP_ID): str,
                     vol.Required(CONF_APP_SECRET): str,
                     vol.Required(CONF_ENABLE_DISCOVER, default=True): bool,
@@ -108,11 +113,13 @@ class ImouFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                 )
                 # create the entry
                 data = {
+                    CONF_API_URL: self._api_url,
                     CONF_DEVICE_NAME: name,
                     CONF_APP_ID: self._app_id,
                     CONF_APP_SECRET: self._app_secret,
                     CONF_DEVICE_ID: device.get_device_id(),
                 }
+                await self.async_set_unique_id(device.get_device_id())
                 return self.async_create_entry(title=name, data=data)
 
         # discover registered devices
@@ -163,11 +170,13 @@ class ImouFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                 )
                 # create the entry
                 data = {
+                    CONF_API_URL: self._api_url,
                     CONF_DEVICE_NAME: name,
                     CONF_APP_ID: self._app_id,
                     CONF_APP_SECRET: self._app_secret,
                     CONF_DEVICE_ID: user_input[CONF_DEVICE_ID],
                 }
+                await self.async_set_unique_id(user_input[CONF_DEVICE_ID])
                 return self.async_create_entry(title=name, data=data)
 
         # by default show up the form
@@ -213,10 +222,6 @@ class ImouOptionsFlowHandler(config_entries.OptionsFlow):
                             OPTION_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL
                         ),
                     ): int,
-                    vol.Optional(
-                        OPTION_API_URL,
-                        default=self.options.get(OPTION_API_URL, ""),
-                    ): str,
                     vol.Optional(
                         OPTION_API_TIMEOUT,
                         default=self.options.get(OPTION_API_TIMEOUT, ""),

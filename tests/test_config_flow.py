@@ -6,12 +6,12 @@ import pytest
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
 from custom_components.imou_life.const import (
+    CONF_API_URL,
     CONF_APP_ID,
     CONF_APP_SECRET,
     CONF_DEVICE_ID,
     DOMAIN,
     OPTION_API_TIMEOUT,
-    OPTION_API_URL,
     OPTION_CALLBACK_URL,
     OPTION_SCAN_INTERVAL,
 )
@@ -66,6 +66,7 @@ async def test_discover_ok(hass, api_ok):
     )
     # check that the config flow is complete and a new entry is created
     assert result["type"] == data_entry_flow.RESULT_TYPE_CREATE_ENTRY
+    assert result["data"][CONF_API_URL] == MOCK_LOGIN_WITH_DISCOVER[CONF_API_URL]
     assert result["data"][CONF_APP_ID] == MOCK_LOGIN_WITH_DISCOVER[CONF_APP_ID]
     assert result["data"][CONF_APP_SECRET] == MOCK_LOGIN_WITH_DISCOVER[CONF_APP_SECRET]
     assert (
@@ -116,6 +117,7 @@ async def test_manual_ok(hass, api_ok):
     )
     # check that the config flow is complete and a new entry is created
     assert result["type"] == data_entry_flow.RESULT_TYPE_CREATE_ENTRY
+    assert result["data"][CONF_API_URL] == MOCK_LOGIN_WITHOUT_DISCOVER[CONF_API_URL]
     assert result["data"][CONF_APP_ID] == MOCK_LOGIN_WITHOUT_DISCOVER[CONF_APP_ID]
     assert (
         result["data"][CONF_APP_SECRET] == MOCK_LOGIN_WITHOUT_DISCOVER[CONF_APP_SECRET]
@@ -141,7 +143,6 @@ async def test_options_flow(hass):
         result["flow_id"],
         user_input={
             OPTION_SCAN_INTERVAL: 30,
-            OPTION_API_URL: "test",
             OPTION_API_TIMEOUT: "20",
             OPTION_CALLBACK_URL: "url",
         },
@@ -150,6 +151,5 @@ async def test_options_flow(hass):
     assert result["type"] == data_entry_flow.RESULT_TYPE_CREATE_ENTRY
     # Verify that the options were updated
     assert entry.options[OPTION_SCAN_INTERVAL] == 30
-    assert entry.options[OPTION_API_URL] == "test"
     assert entry.options[OPTION_API_TIMEOUT] == "20"
     assert entry.options[OPTION_CALLBACK_URL] == "url"

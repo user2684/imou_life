@@ -16,10 +16,12 @@ from imouapi.device import ImouDevice
 from imouapi.exceptions import ImouException
 
 from .const import (
+    CONF_API_URL,
     CONF_APP_ID,
     CONF_APP_SECRET,
     CONF_DEVICE_ID,
     CONF_DEVICE_NAME,
+    DEFAULT_API_URL,
     DEFAULT_SCAN_INTERVAL,
     DOMAIN,
     OPTION_API_TIMEOUT,
@@ -46,6 +48,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     # retrieve the configuration entry parameters
     _LOGGER.debug("Loading entry %s", entry.entry_id)
     name = entry.data.get(CONF_DEVICE_NAME)
+    api_url = entry.data.get(CONF_API_URL)
     app_id = entry.data.get(CONF_APP_ID)
     app_secret = entry.data.get(CONF_APP_SECRET)
     device_id = entry.data.get(CONF_DEVICE_ID)
@@ -53,13 +56,11 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 
     # create an imou api client instance
     api_client = ImouAPIClient(app_id, app_secret, session)
-    base_url = entry.options.get(OPTION_API_URL, None)
+    _LOGGER.debug("Setting API base url to %s", api_url)
+    api_client.set_base_url(api_url)
     timeout = entry.options.get(OPTION_API_TIMEOUT, None)
     if isinstance(timeout, str):
         timeout = None if timeout == "" else int(timeout)
-    if base_url is not None and base_url != "":
-        _LOGGER.debug("Setting API base url to %s", base_url)
-        api_client.set_base_url(base_url)
     if timeout is not None:
         _LOGGER.debug("Setting API timeout to %d", timeout)
         api_client.set_timeout(timeout)
@@ -123,3 +124,23 @@ async def async_reload_entry(hass: HomeAssistant, entry: ConfigEntry) -> None:
     """Reload config entry."""
     await async_unload_entry(hass, entry)
     await async_setup_entry(hass, entry)
+
+
+async def async_migrate_entry(hass, config_entry: ConfigEntry) -> bool:
+    """Migrate old entry."""
+    _LOGGER.debug("Migrating from version %s", config_entry.version)
+    if config_entry.version == 1:
+        data = {**config_entry.data}
+        # add the api url. If in option, use it, otherwise use the default one
+        option_api_url = config_entry.options.get(OPTION_API_URL, None)
+        api_url = DEFAULT_API_URL if option_api_url is None else option_api_url
+        data[CONF_API_URL] = api_url
+        # set unique_id
+        unique_id = data[CONF_DEVICE_ID]
+        # update the config entry
+        config_entry.version = 2
+        hass.config_entries.async_update_entry(
+            config_entry, data=data, unique_id=unique_id
+        )
+    _LOGGER.info("Migration to version %s successful", config_entry.version)
+    return True

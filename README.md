@@ -101,7 +101,7 @@ The following options can be customized through the UI by clicking on the "Confi
 ### Motion Detection
 
 When adding a new device, a `Motion Alarm` binary sensor is created (provided your device supports motion detection). You can use it for building your automations, when its state changes, like any other motion sensors you are already familiar with.
-There are multiple options available to keep the motion alarm sensor regularly updated, described below. All the options will update the same "Motion Alarm" sensor, just the frequency changes depending on the option.
+There are multiple options available to keep the motion alarm sensor regularly updated, described below. All the options will update the same "Motion Alarm" sensor, just the frequency changes depending on the option. Option 1 and 2 does not require Home Assistant to be exposed over the Internet, Option 3 does but ensure realtime updates of the sensor.
 
 #### Option 1
 
@@ -138,7 +138,7 @@ Please note, push notification is a global configuration, not per device, meanin
 **Requirements**
 
 - Home Assistant exposed to the Internet
-- Home Assistant behind a reverse proxy, due to malformed requests sent by the Imou API (see remarks below for details)
+- Home Assistant behind a reverse proxy, due to malformed requests sent by the Imou API (see below for details and examples)
 
 **Configuration**
 
@@ -153,7 +153,7 @@ Please note, push notification is a global configuration, not per device, meanin
 
 ```
 alias: Imou Push Notifications
-description: "Handle Imou push notifications by requesting to update the Motion Alarm sensor of the involved device"
+description: "Handle Imou push notifications by requesting to update the Motion Alarm sensor of the involved device (v1)"
 trigger:
   - platform: webhook
     webhook_id: <your_string_difficult_to_guess>
@@ -185,8 +185,84 @@ max: 10
 When using this option, please note the following:
 
 - The API for enabling/disabling push notification is currently limited to 10 times per day by Imou so do not perform too many consecutive changes. Keep also in mind that if you change the URL, sometimes it may take up to 5 minutes for a change to apply on Imou side
-- In Home Assistant you cannot have more than one webhook trigger with the same ID
-- Unfortunately HTTP requests sent by the Imou API server to Home Assistant are somehow malformed, causing HA to reject the request (404 error, without any evidence in the logs). A reverse proxy like NGINX in front of Home Assistant without any special configuration takes care of cleaning out the request, hence this is a requirement. If running HA in Supervised mode, "Nginx Proxy Manager Add-on" has been tested and works fine, while "NGINX Home Assistant SSL proxy Addon" does not.
+- In Home Assistant you cannot have more than one webhook trigger with the same ID so customize the example above if you need to add any custom logic
+- Unfortunately HTTP requests sent by the Imou API server to Home Assistant are somehow malformed, causing HA to reject the request (404 error, without any evidence in the logs). A reverse proxy like NGINX in front of Home Assistant without any special configuration takes care of cleaning out the request, hence this is a requirement.
+
+**Reverse Proxy Configuration**
+
+If running Home Assistant in Supervised mode, you can install and configure the "Nginx Proxy Manager Add-on" which has been tested and works fine.
+Please note "NGINX Home Assistant SSL proxy Addon" instead is not able to handle the malformed requests sent by Imou.
+
+If you are instead using a custom nginx proxy, the following is a sample configuration `nginx.conf` file you can use. Please note before using it:
+
+- Replace `<home_assistant_ip>` with the IP address of your Home Assistance instance
+- If using SSL:
+  - Uncomment the commented lines
+  - Place your certificate, private key and dhparms files in a directory accessible by nginx (`/ssl` in the example below)
+  - If you don't have a dhparms file, generate one by running `openssl dhparam -dsaparam -out dhparams.pem 4096 > /dev/null`
+- If serving multiple domains, customize the `server_name` directive. In this case, ensure there is no other server block with a catchall `server_name _` directive otherwise the malformed requests sent by Imou will be routed somewhere else
+- If you need to debug the incoming requests, change `access_log /dev/stdout info` into `access_log /dev/stdout debug` and you will see the content of any POST requests
+
+```
+user  nginx;
+worker_processes  auto;
+
+error_log  stderr;
+pid        /var/run/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+
+
+http {
+    map $http_upgrade $connection_upgrade {
+        default upgrade;
+        ''      close;
+    }
+
+    server_tokens off;
+    server_names_hash_bucket_size 64;
+    log_format  info  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+    log_format debug '[$time_local] "$request" "$status" "$request_body"';
+
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384;
+    ssl_prefer_server_ciphers off;
+
+    server {
+        server_name _;
+        ssl_session_timeout 1d;
+        ssl_session_cache shared:MozSSL:10m;
+        ssl_session_tickets off;
+        #ssl_certificate /ssl/fullchain.pem;
+        #ssl_certificate_key /ssl/privkey.pem;
+        #ssl_dhparam /ssl/dhparams.pem;
+
+        #listen 443 ssl http2;
+        listen 80;
+        add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+
+        proxy_buffering off;
+
+        location /{
+            access_log /dev/stdout info;
+            proxy_pass http://<home_assistant_ip>:8123/;
+            proxy_set_header Host $host;
+            proxy_redirect http:// https://;
+            proxy_http_version 1.1;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection $connection_upgrade;
+        }
+
+    }
+
+}
+```
 
 ## Limitations / Known Issues
 
@@ -221,7 +297,7 @@ logger:
 
 ## Bugs or feature requests
 
-Bugs and feature requests can be reported through Github Issues.
+Bugs and feature requests can be reported through [Github Issues](https://github.com/user2684/imou_life/issues).
 When reporting bugs, ensure to include also diagnostics and debug logs. Please review those logs to redact any potential sensitive information before submitting the request.
 
 ## Roadmap

@@ -1,0 +1,50 @@
+{
+  "config": {
+    "step": {
+      "login": {
+        "title": "Login",
+        "data": {
+          "api_url": "URL delle API",
+          "app_id": "Imou App ID",
+          "app_secret": "Imou App Secret",
+          "enable_discover": "Individua dispositivi registrati"
+        }
+      },
+      "discover": {
+        "title": "Dispositivi Individuati",
+        "data": {
+          "discovered_device": "Seleziona il dispositivo da aggiungere:",
+          "device_name": "Rinominalo in"
+        }
+      },
+      "manual": {
+        "title": "Aggiungi dispositivo",
+        "data": {
+          "device_id": "ID dispositivo",
+          "device_name": "Rinominalo in"
+        }
+      }
+    },
+    "error": {
+      "not_connected": "Azione richiesta ma non ancora connesso alle API",
+      "connection_failed": "Impossibile collegarsi alle API",
+      "invalid_configuration": "App Id o App Secret non corretti",
+      "not_authorized": "Non autorizzato ad operare sul dispositivo o ID dispositivo non valido",
+      "api_error": "Errore API remote",
+      "invalid_reponse": "Risposta malformata o inaspettata dalle API",
+      "device_offline": "Dispositivo non in linea",
+      "generic_error": "Errore sconosciuto"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Intervallo di aggiornamento (secondi)",
+          "api_timeout": "Timeout delle API (secondi)",
+          "callback_url": "URL di callback"
+        }
+      }
+    }
+  }
+}

@@ -1,10 +1,24 @@
 # Changelog
 
+## [1.0.7] (2022-11-20)
+### Added
+- Spanish and italian translations (#21)
+- Reverse proxy sample configuration for custom configuration of push notifications (#29)
+- Siren entity (#26)
+### Changed
+- API URL is now part of the configuration flow (#16)
+- Bump imouapi version: 1.0.6 → 1.0.7
+### Removed
+- `siren` switch, now exposed as a siren entity
+- API Base URL option, now part of the configuration flow
+### Fixed
+- Entities not correctly removed from HA
+
 ## [1.0.6] (2022-11-19)
 ### Added
-- `motionDetection` binary sensor which can be updated also via the `refreshAlarm` button
-## Removed
-- `lastAlarm` sensor. The same information has been moved into the `alarm_time` attribute inside the `motionDetection` binary sensor, together with `alarm_type` and  `alarm_code`
+- `motionAlarm` binary sensor which can be updated also via the `refreshAlarm` button
+### Removed
+- `lastAlarm` sensor. The same information has been moved into the `alarm_time` attribute inside the `motionAlarm` binary sensor, together with `alarm_type` and  `alarm_code`
 ### Changed
 - Bump imouapi version: 1.0.5 → 1.0.6
 - Updated README and link to the roadmap

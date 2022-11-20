@@ -1,22 +1,25 @@
 """Constants."""
 # Internal constants
 DOMAIN = "imou_life"
-PLATFORMS = ["switch", "sensor", "binary_sensor", "select", "button"]
+PLATFORMS = ["switch", "sensor", "binary_sensor", "select", "button", "siren"]
 
 # Configuration definitions
+CONF_API_URL = "api_url"
 CONF_DEVICE_NAME = "device_name"
 CONF_APP_ID = "app_id"
 CONF_APP_SECRET = "app_secret"
 CONF_ENABLE_DISCOVER = "enable_discover"
 CONF_DISCOVERED_DEVICE = "discovered_device"
 CONF_DEVICE_ID = "device_id"
+
 OPTION_SCAN_INTERVAL = "scan_interval"
-OPTION_API_URL = "api_url"
 OPTION_API_TIMEOUT = "api_timeout"
 OPTION_CALLBACK_URL = "callback_url"
+OPTION_API_URL = "api_url"
 
 # Defaults
 DEFAULT_SCAN_INTERVAL = 15 * 60
+DEFAULT_API_URL = "https://openapi.easy4ip.com/openapi"
 
 # switches which are enabled by default
 ENABLED_SWITCHES = [
@@ -30,7 +33,6 @@ ENABLED_SWITCHES = [
     "smartTrack",
     "linkagewhitelight",
     "pushNotifications",
-    "siren",
 ]
 
 # icons of the sensors
@@ -56,9 +58,10 @@ SENSOR_ICONS = {
     "smartTrack": "mdi:radar",
     "linkagewhitelight": "mdi:light-flood-down",
     "pushNotifications": "mdi:webhook",
-    "siren": "mdi:alarm-light",
     # buttons
     "restartDevice": "mdi:restart",
     "refreshData": "mdi:refresh",
     "refreshAlarm": "mdi:refresh",
+    # sirens
+    "siren": "mdi:alarm-light",
 }
