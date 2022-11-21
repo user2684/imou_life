@@ -31,7 +31,7 @@ _LOGGER: logging.Logger = logging.getLogger(__package__)
 class ImouFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
     """Config flow for imou."""
 
-    VERSION = 2
+    VERSION = 3
     CONNECTION_CLASS = config_entries.CONN_CLASS_CLOUD_POLL
 
     def __init__(self):

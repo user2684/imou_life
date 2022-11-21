@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.0.8] (2022-11-21)
+### Fixed
+- "Failed to setup" error after upgrading to v1.0.7 (#37)
+
 ## [1.0.7] (2022-11-20)
 ### Added
 - Spanish and italian translations (#21)

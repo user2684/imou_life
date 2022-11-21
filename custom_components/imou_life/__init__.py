@@ -129,18 +129,28 @@ async def async_reload_entry(hass: HomeAssistant, entry: ConfigEntry) -> None:
 async def async_migrate_entry(hass, config_entry: ConfigEntry) -> bool:
     """Migrate old entry."""
     _LOGGER.debug("Migrating from version %s", config_entry.version)
+    data = {**config_entry.data}
+    options = {**config_entry.options}
+    unique_id = data[CONF_DEVICE_ID]
+
     if config_entry.version == 1:
-        data = {**config_entry.data}
         # add the api url. If in option, use it, otherwise use the default one
         option_api_url = config_entry.options.get(OPTION_API_URL, None)
         api_url = DEFAULT_API_URL if option_api_url is None else option_api_url
         data[CONF_API_URL] = api_url
-        # set unique_id
-        unique_id = data[CONF_DEVICE_ID]
-        # update the config entry
         config_entry.version = 2
-        hass.config_entries.async_update_entry(
-            config_entry, data=data, unique_id=unique_id
-        )
+
+    if config_entry.version == 2:
+        # if api_url is empty, copy over the one in options
+        if data[CONF_API_URL] == "":
+            data[CONF_API_URL] = DEFAULT_API_URL
+        if OPTION_API_URL in options:
+            del options[OPTION_API_URL]
+        config_entry.version = 3
+
+    # update the config entry
+    hass.config_entries.async_update_entry(
+        config_entry, data=data, options=options, unique_id=unique_id
+    )
     _LOGGER.info("Migration to version %s successful", config_entry.version)
     return True
