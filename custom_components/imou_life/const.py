@@ -1,7 +1,7 @@
 """Constants."""
 # Internal constants
 DOMAIN = "imou_life"
-PLATFORMS = ["switch", "sensor", "binary_sensor", "select", "button", "siren"]
+PLATFORMS = ["switch", "sensor", "binary_sensor", "select", "button", "siren", "camera"]
 
 # Configuration definitions
 CONF_API_URL = "api_url"
@@ -16,6 +16,14 @@ OPTION_SCAN_INTERVAL = "scan_interval"
 OPTION_API_TIMEOUT = "api_timeout"
 OPTION_CALLBACK_URL = "callback_url"
 OPTION_API_URL = "api_url"
+
+SERVIZE_PTZ_LOCATION = "ptz_location"
+SERVIZE_PTZ_MOVE = "ptz_move"
+ATTR_PTZ_HORIZONTAL = "horizontal"
+ATTR_PTZ_VERTICAL = "vertical"
+ATTR_PTZ_ZOOM = "zoom"
+ATTR_PTZ_OPERATION = "operation"
+ATTR_PTZ_DURATION = "duration"
 
 # Defaults
 DEFAULT_SCAN_INTERVAL = 15 * 60
@@ -64,4 +72,6 @@ SENSOR_ICONS = {
     "refreshAlarm": "mdi:refresh",
     # sirens
     "siren": "mdi:alarm-light",
+    # cameras
+    "camera": "mdi:video",
 }

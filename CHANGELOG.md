@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.0.9] (2022-11-26)
+### Added
+- PTZ Support, exposed as `imou_life.ptz_location` and `imou_life.ptz_move` services
+- Camera entity, used for invoking the PTZ services
+
 ## [1.0.8] (2022-11-21)
 ### Fixed
 - "Failed to setup" error after upgrading to v1.0.7 (#37)

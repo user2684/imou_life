@@ -18,6 +18,7 @@ Once an Imou device is added to Home Assistant, switches can be controlled throu
 - Auto discover device capabilities and supported switches
 - Sensors, binary sensors, select, buttons to control key features of each device
 - Support for push notifications
+- PTZ controls
 
 ## Installation
 
@@ -264,6 +265,18 @@ http {
 }
 ```
 
+### PTZ Controls
+
+The integration exposes two services for interacting with the PTZ capabilities of the device:
+
+- `imou_life.ptz_location`: if the device supports PTZ, you will be able to move it to a specified location by providing horizontal (between -1 and 1), vertical (between -1 and 1) and zoom (between 0 and 1)
+- `imou_life.ptz_move` If the device supports PTZ, you will be able to move it around by providing an operation (one of "UP", "DOWN", "LEFT", "RIGHT", "UPPER_LEFT", "BOTTOM_LEFT", "UPPER_RIGHT", "BOTTOM_RIGHT", "ZOOM_IN", "ZOOM_OUT", "STOP") and a duration for the operation (in milliseconds)
+
+Those services can be invoked on the camera entity.
+To test this capability, in Home Assistant go to "Developer Tools", click on "Services", select one of the services above, select the target entity, provide the required information and click on "Call Service". If something will go wrong, have a look at the logs.
+
+Presets are instead not apparently supported by the Imou APIs but could be implemented by combining HA scripts and calls to the `imou_life.ptz_location` service.
+
 ## Limitations / Known Issues
 
 - The Imou API does not provide a stream of configuration events, for this reason the component periodically polls the devices, meaning if you change anything from the Imou Life App, it could take a few minutes to be updated in HA. Use the "Refresh Data" button to refresh data for all the devices' sensors
@@ -274,7 +287,12 @@ http {
 ## Troubleshooting
 
 If anything fails, you should find the error message and the full stack trace on your Home Assistant logs. This can be helpful for either troubleshoot the issue or reporting it.
-Diagnostics information is as well provided by visiting the device page in Home Assistant and clicking on "Download Diagnostics".
+
+### Device Diagnostics
+
+Diagnostics information is provided by visiting the device page in Home Assistant and clicking on "Download Diagnostics".
+
+### Debugging
 
 To gain more insights on what the component is doing or why is failing, you can enable debug logging:
 
