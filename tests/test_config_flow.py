@@ -37,6 +37,7 @@ def bypass_setup_fixture():
         yield
 
 
+@pytest.mark.asyncio
 async def test_discover_ok(hass, api_ok):
     """Test discover flow: ok."""
     # Initialize a config flow as the user is clicking on add new integration
@@ -76,6 +77,7 @@ async def test_discover_ok(hass, api_ok):
     assert result["result"]
 
 
+@pytest.mark.asyncio
 async def test_login_error(hass, api_invalid_app_id):
     """Test config flow: invalid app id."""
     result = await hass.config_entries.flow.async_init(
@@ -88,6 +90,7 @@ async def test_login_error(hass, api_invalid_app_id):
     assert result["errors"] == {"base": "invalid_configuration"}
 
 
+@pytest.mark.asyncio
 async def test_manual_ok(hass, api_ok):
     """Test manual flow: ok."""
     # Initialize a config flow as the user is clicking on add new integration
@@ -128,6 +131,7 @@ async def test_manual_ok(hass, api_ok):
     assert result["result"]
 
 
+@pytest.mark.asyncio
 async def test_options_flow(hass):
     """Test an options flow."""
     entry = MockConfigEntry(domain=DOMAIN, data=MOCK_CONFIG_ENTRY, entry_id="test")

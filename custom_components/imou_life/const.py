@@ -43,6 +43,11 @@ ENABLED_SWITCHES = [
     "pushNotifications",
 ]
 
+# cameras which are enabled by default
+ENABLED_CAMERAS = [
+    "camera",
+]
+
 # icons of the sensors
 SENSOR_ICONS = {
     "__default__": "mdi:bookmark",
@@ -74,4 +79,5 @@ SENSOR_ICONS = {
     "siren": "mdi:alarm-light",
     # cameras
     "camera": "mdi:video",
+    "cameraSD": "mdi:video",
 }

@@ -14,6 +14,7 @@ from custom_components.imou_life.coordinator import ImouDataUpdateCoordinator
 from .const import MOCK_CONFIG_ENTRY
 
 
+@pytest.mark.asyncio
 async def test_setup_unload_and_reload_entry(hass, api_ok):
     """Test entry setup and unload."""
     # Create a mock entry so we don't have to go through config flow
@@ -39,6 +40,7 @@ async def test_setup_unload_and_reload_entry(hass, api_ok):
     assert config_entry.entry_id not in hass.data[DOMAIN]
 
 
+@pytest.mark.asyncio
 async def test_setup_entry_exception(hass, api_invalid_data):
     """Test ConfigEntryNotReady when API raises an exception during entry setup."""
     config_entry = MockConfigEntry(

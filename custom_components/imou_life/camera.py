@@ -2,7 +2,11 @@
 from collections.abc import Callable
 import logging
 
-from homeassistant.components.camera import ENTITY_ID_FORMAT, Camera
+from homeassistant.components.camera import (
+    ENTITY_ID_FORMAT,
+    Camera,
+    CameraEntityFeature,
+)
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity_platform
@@ -16,6 +20,7 @@ from .const import (
     ATTR_PTZ_VERTICAL,
     ATTR_PTZ_ZOOM,
     DOMAIN,
+    ENABLED_CAMERAS,
     SERVIZE_PTZ_LOCATION,
     SERVIZE_PTZ_MOVE,
 )
@@ -70,12 +75,35 @@ async def async_setup_entry(
 class ImouCamera(ImouEntity, Camera):
     """imou camera class."""
 
+    _attr_supported_features = CameraEntityFeature.STREAM
+
     def __init__(self, coordinator, config_entry, sensor_instance, entity_format):
         """Initialize."""
+        Camera.__init__(self)
         ImouEntity.__init__(
             self, coordinator, config_entry, sensor_instance, entity_format
         )
-        Camera.__init__(self)
+
+    @property
+    def entity_registry_enabled_default(self) -> bool:
+        """If the entity is enabled by default."""
+        return self.sensor_instance.get_name() in ENABLED_CAMERAS
+
+    async def async_camera_image(self, width=None, height=None) -> bytes:
+        """Return bytes of camera image."""
+        _LOGGER.debug(
+            "[%s] requested camera image",
+            self.device.get_name(),
+        )
+        return await self.sensor_instance.async_get_image()
+
+    async def stream_source(self) -> str:
+        """Return the source of the stream."""
+        _LOGGER.debug(
+            "[%s] requested camera stream url",
+            self.device.get_name(),
+        )
+        return await self.sensor_instance.async_get_stream_url()
 
     async def async_service_ptz_location(self, horizontal, vertical, zoom):
         """Perform PTZ location action."""
@@ -104,7 +132,3 @@ class ImouCamera(ImouEntity, Camera):
             operation,
             duration,
         )
-
-    async def async_camera_image(self, width=None, height=None):
-        """Return bytes of camera image."""
-        return None

@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.0.10] (2022-12-04)
+### Added
+- Camera entity now supports snapshots and video streaming
+
 ## [1.0.9] (2022-11-26)
 ### Added
 - PTZ Support, exposed as `imou_life.ptz_location` and `imou_life.ptz_move` services

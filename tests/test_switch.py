@@ -26,6 +26,7 @@ def bypass_added_to_hass():
         yield
 
 
+@pytest.mark.asyncio
 async def test_switch(hass, api_ok):
     """Test switch services."""
     # Create a mock entry so we don't have to go through config flow
