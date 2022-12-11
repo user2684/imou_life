@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.0.12] (2022-12-11)
+### Fixed
+- Dormant device logic
+
 ## [1.0.11] (2022-12-11)
 ### Added
 - Support for dormant devices
