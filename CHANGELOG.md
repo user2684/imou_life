@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.11] (2022-12-11)
+### Added
+- Support for dormant devices
+- `status` sensor
+- Options for customizing wait time for camera snapshot download and wait time after waking up dormant device
+### Changed
+- Device is now marked online if either online or dormant
+
 ## [1.0.10] (2022-12-04)
 ### Added
 - Camera entity now supports snapshots and video streaming

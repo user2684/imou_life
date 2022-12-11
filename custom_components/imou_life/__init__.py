@@ -26,7 +26,9 @@ from .const import (
     DOMAIN,
     OPTION_API_TIMEOUT,
     OPTION_API_URL,
+    OPTION_CAMERA_WAIT_BEFORE_DOWNLOAD,
     OPTION_SCAN_INTERVAL,
+    OPTION_WAIT_AFTER_WAKE_UP,
     PLATFORMS,
 )
 from .coordinator import ImouDataUpdateCoordinator
@@ -69,6 +71,18 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     device = ImouDevice(api_client, device_id)
     if name is not None:
         device.set_name(name)
+    camera_wait_before_download = entry.options.get(
+        OPTION_CAMERA_WAIT_BEFORE_DOWNLOAD, None
+    )
+    if camera_wait_before_download is not None:
+        _LOGGER.debug(
+            "Setting camera wait before download to %f", camera_wait_before_download
+        )
+        device.set_camera_wait_before_download(camera_wait_before_download)
+    wait_after_wakeup = entry.options.get(OPTION_WAIT_AFTER_WAKE_UP, None)
+    if wait_after_wakeup is not None:
+        _LOGGER.debug("Setting wait after wakeup to %f", wait_after_wakeup)
+        device.set_wait_after_wakeup(wait_after_wakeup)
 
     # initialize the device so to discover all the sensors
     try:

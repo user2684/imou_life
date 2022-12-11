@@ -18,7 +18,8 @@ Once an Imou device is added to Home Assistant, switches can be controlled throu
 - Auto discover device capabilities and supported switches
 - Sensors, binary sensors, select, buttons to control key features of each device
 - Support for push notifications
-- PTZ controls
+- Image snapshots, video streaming and PTZ controls
+- Support for dormant devices
 
 ## Installation
 

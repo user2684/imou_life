@@ -16,6 +16,8 @@ OPTION_SCAN_INTERVAL = "scan_interval"
 OPTION_API_TIMEOUT = "api_timeout"
 OPTION_CALLBACK_URL = "callback_url"
 OPTION_API_URL = "api_url"
+OPTION_CAMERA_WAIT_BEFORE_DOWNLOAD = "camera_wait_before_download"
+OPTION_WAIT_AFTER_WAKE_UP = "wait_after_wakeup"
 
 SERVIZE_PTZ_LOCATION = "ptz_location"
 SERVIZE_PTZ_MOVE = "ptz_move"
@@ -55,8 +57,9 @@ SENSOR_ICONS = {
     "lastAlarm": "mdi:timer",
     "storageUsed": "mdi:harddisk",
     "callbackUrl": "mdi:phone-incoming",
+    "status": "mdi:lan-connect",
     # binary sensors
-    "online": "mdi:lan-connect",
+    "online": "mdi:check-circle",
     "motionAlarm": "mdi:motion-sensor",
     # select
     "nightVisionMode": "mdi:weather-night",

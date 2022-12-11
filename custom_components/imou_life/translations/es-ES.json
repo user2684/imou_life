@@ -42,7 +42,9 @@
         "data": {
           "scan_interval": "Intervalo de peticiones (segundos)",
           "api_timeout": "Tiempo límite de API (segundos)",
-          "callback_url": "URL de retorno de llamada"
+          "callback_url": "URL de retorno de llamada",
+          "camera_wait_before_download": "Espere antes de descargar la instantánea de la cámara (segundos)",
+          "wait_after_wakeup": "Espere después de activar el dispositivo inactivo (segundos)"
         }
       }
     }

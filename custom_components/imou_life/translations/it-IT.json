@@ -42,7 +42,9 @@
         "data": {
           "scan_interval": "Intervallo di aggiornamento (secondi)",
           "api_timeout": "Timeout delle API (secondi)",
-          "callback_url": "URL di callback"
+          "callback_url": "URL di callback",
+          "camera_wait_before_download": "Attendi prima di scaricare l'immagine dalla camera (secondi)",
+          "wait_after_wakeup": "Attendi dopo aver svegliato un dispositivo dormente (secondi)"
         }
       }
     }

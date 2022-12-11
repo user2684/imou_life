@@ -14,7 +14,14 @@ async def async_get_config_entry_diagnostics(
 ) -> dict[str, Any]:
     """Return diagnostics for a config entry."""
     coordinator: ImouDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id]
-    to_redact = {"app_id", "app_secret", "access_token", "device_id", "entry_id"}
+    to_redact = {
+        "app_id",
+        "app_secret",
+        "access_token",
+        "device_id",
+        "entry_id",
+        "unique_id",
+    }
     return {
         "entry": async_redact_data(entry.as_dict(), to_redact),
         "device_info": async_redact_data(

@@ -42,7 +42,9 @@
         "data": {
           "scan_interval": "Polling interval (seconds)",
           "api_timeout": "API timeout (seconds)",
-          "callback_url": "Callback URL"
+          "callback_url": "Callback URL",
+          "camera_wait_before_download": "Wait before downloading camera snapshot (seconds)",
+          "wait_after_wakeup": "Wait after waking up dormant device (seconds)"
         }
       }
     }

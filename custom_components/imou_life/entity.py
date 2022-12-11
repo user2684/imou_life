@@ -50,7 +50,7 @@ class ImouEntity(CoordinatorEntity):
         if self.entity_available is not None:
             return self.entity_available
         # otherwise return the availability of the device
-        return self.coordinator.device.is_online()
+        return self.coordinator.device.get_status()
 
     @property
     def name(self):

@@ -22,7 +22,9 @@ from .const import (
     DOMAIN,
     OPTION_API_TIMEOUT,
     OPTION_CALLBACK_URL,
+    OPTION_CAMERA_WAIT_BEFORE_DOWNLOAD,
     OPTION_SCAN_INTERVAL,
+    OPTION_WAIT_AFTER_WAKE_UP,
 )
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
@@ -230,6 +232,18 @@ class ImouOptionsFlowHandler(config_entries.OptionsFlow):
                         OPTION_CALLBACK_URL,
                         default=self.options.get(OPTION_CALLBACK_URL, ""),
                     ): str,
+                    vol.Optional(
+                        OPTION_CAMERA_WAIT_BEFORE_DOWNLOAD,
+                        default=self.options.get(
+                            OPTION_CAMERA_WAIT_BEFORE_DOWNLOAD, vol.UNDEFINED
+                        ),
+                    ): vol.Coerce(float),
+                    vol.Optional(
+                        OPTION_WAIT_AFTER_WAKE_UP,
+                        default=self.options.get(
+                            OPTION_WAIT_AFTER_WAKE_UP, vol.UNDEFINED
+                        ),
+                    ): vol.Coerce(float),
                 }
             ),
         )
