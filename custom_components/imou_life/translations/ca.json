@@ -1,0 +1,52 @@
+{
+  "config": {
+    "step": {
+      "login": {
+        "title": "Accés",
+        "data": {
+          "api_url": "URL base de l'API",
+          "app_id": "Imou App ID",
+          "app_secret": "Imou App Secret",
+          "enable_discover": "Descobrir els dispositius registrats"
+        }
+      },
+      "discover": {
+        "title": "Dispositius Descoberts",
+        "data": {
+          "discovered_device": "Seleccioneu el dispositiu que voleu afegir:",
+          "device_name": "Reanomenar com"
+        }
+      },
+      "manual": {
+        "title": "Afegir Dispositiu",
+        "data": {
+          "device_id": "ID del dispositiu",
+          "device_name": "Reanomenar com"
+        }
+      }
+    },
+    "error": {
+      "not_connected": "Acció sol·licitada, però encara no està connectat a l'API",
+      "connection_failed": "Error en connectar-se a l'API",
+      "invalid_configuration": "App Id o App Secret invàlids",
+      "not_authorized": "No autoritzat per operar amb el dispositiu o ID del dispositiu no vàlida",
+      "api_error": "Error de l'API remota",
+      "invalid_reponse": "Resposta de l'API malformada o inesperada",
+      "device_offline": "El dispositiu està fora de línia",
+      "generic_error": "S'ha produït un error desconegut"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Interval de peticions (segons)",
+          "api_timeout": "Temps d'espera de l'API (segons)",
+          "callback_url": "URL de retorn de trucada",
+          "camera_wait_before_download": "Espereu abans de baixar la instantània de la càmera (segons)",
+          "wait_after_wakeup": "Espereu després d'activar el dispositiu inactiu (segons)"
+        }
+      }
+    }
+  }
+}
