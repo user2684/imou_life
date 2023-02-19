@@ -58,6 +58,7 @@ SENSOR_ICONS = {
     "storageUsed": "mdi:harddisk",
     "callbackUrl": "mdi:phone-incoming",
     "status": "mdi:lan-connect",
+    "battery": "mdi:battery",
     # binary sensors
     "online": "mdi:check-circle",
     "motionAlarm": "mdi:motion-sensor",

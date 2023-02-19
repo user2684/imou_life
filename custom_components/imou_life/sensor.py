@@ -45,6 +45,8 @@ class ImouSensor(ImouEntity):
         """Provide unit of measurement."""
         if self.sensor_instance.get_name() == "storageUsed":
             return "%"
+        if self.sensor_instance.get_name() == "battery":
+            return "%"
         return None
 
     @property

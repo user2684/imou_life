@@ -169,6 +169,13 @@ condition:
         {% else %}
           false
       {%- endfor %}
+  - condition: template
+    value_template: |-
+      {%- if trigger.json.msgType in ("videoMotion", "human", "openCamera") %}
+        true
+      {% else %}
+        false
+      {%-endif%}
 action:
   - service: button.press
     data: {}

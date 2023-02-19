@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.13] (2023-02-19)
+### Added
+- Added battery sensor for dormant devices
+- Catalan translation
+### Changed
+- Added new conditions to the Imou Push Notifications automation template in the README file to prevent too many refresh
+### Fixed
+- Motion detection sensor now showing up for all devices
+
 ## [1.0.12] (2022-12-11)
 ### Fixed
 - Dormant device logic
