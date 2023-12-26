@@ -6,7 +6,6 @@ from homeassistant.const import ATTR_ENTITY_ID
 import pytest
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
-from custom_components.imou_life import async_setup_entry
 from custom_components.imou_life.const import DOMAIN
 
 from .const import MOCK_CONFIG_ENTRY
@@ -33,7 +32,8 @@ async def test_switch(hass, api_ok):
     config_entry = MockConfigEntry(
         domain=DOMAIN, data=MOCK_CONFIG_ENTRY, entry_id="test"
     )
-    assert await async_setup_entry(hass, config_entry)
+    config_entry.add_to_hass(hass)
+    await hass.config_entries.async_setup(config_entry.entry_id)
     await hass.async_block_till_done()
     # check if the turn_on function is called when turning on the switch
     with patch(

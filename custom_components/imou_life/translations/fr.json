@@ -1,0 +1,52 @@
+{
+  "config": {
+    "step": {
+      "login": {
+        "title": "Connexion",
+        "data": {
+          "api_url": "URL de base de l'API",
+          "app_id": "ID de l'application Imou",
+          "app_secret": "Secret de l'application Imou",
+          "enable_discover": "Découvrir les appareils enregistrés"
+        }
+      },
+      "discover": {
+        "title": "Appareils Découverts",
+        "data": {
+          "discovered_device": "Sélectionnez l'appareil à ajouter :",
+          "device_name": "Renommer en tant que"
+        }
+      },
+      "manual": {
+        "title": "Ajouter un Appareil",
+        "data": {
+          "device_id": "ID de l'appareil",
+          "device_name": "Renommer en tant que"
+        }
+      }
+    },
+    "error": {
+      "not_connected": "Action demandée mais pas encore connecté à l'API",
+      "connection_failed": "Échec de la connexion à l'API",
+      "invalid_configuration": "ID d'application ou secret d'application invalide",
+      "not_authorized": "Non autorisé à opérer sur l'appareil ou ID d'appareil invalide",
+      "api_error": "Erreur de l'API distante",
+      "invalid_reponse": "Réponse de l'API malformée ou inattendue",
+      "device_offline": "L'appareil est hors ligne",
+      "generic_error": "Une erreur inconnue s'est produite"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Intervalle de sondage (secondes)",
+          "api_timeout": "Délai d'expiration de l'API (secondes)",
+          "callback_url": "URL de rappel",
+          "camera_wait_before_download": "Attendre avant de télécharger l'instantané de la caméra (secondes)",
+          "wait_after_wakeup": "Attendre après le réveil d'un appareil en dormance (secondes)"
+        }
+      }
+    }
+  }
+}

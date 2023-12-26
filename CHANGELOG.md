@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.14] (2023-12-26)
+### Added
+- French and Indonesian support
+- List with all the supported/tested models in the README file
+- Instructions on how to contribute in the README file
+### Fixed
+- Improved support for Cell Go cameras (#55)
+- Discovery service now ignores with a warning unrecognized/unsupported devices instead of throwing an error (#47)
+### Changed
+- Bump imouapi version: 1.0.13 → 1.0.14
+- Added a Wiki to Github with articles for end users, developers and maintainers
+
 ## [1.0.13] (2023-02-19)
 ### Added
 - Added battery sensor for dormant devices

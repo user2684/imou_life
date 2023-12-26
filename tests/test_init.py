@@ -22,7 +22,8 @@ async def test_setup_unload_and_reload_entry(hass, api_ok):
         domain=DOMAIN, data=MOCK_CONFIG_ENTRY, entry_id="test"
     )
     # test setup entry
-    assert await async_setup_entry(hass, config_entry)
+    config_entry.add_to_hass(hass)
+    assert await hass.config_entries.async_setup(config_entry.entry_id)
     assert DOMAIN in hass.data and config_entry.entry_id in hass.data[DOMAIN]
     assert isinstance(
         hass.data[DOMAIN][config_entry.entry_id], ImouDataUpdateCoordinator

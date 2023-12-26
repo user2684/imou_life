@@ -21,6 +21,10 @@ Once an Imou device is added to Home Assistant, switches can be controlled throu
 - Image snapshots, video streaming and PTZ controls
 - Support for dormant devices
 
+## Supported Models
+
+You can find [here](https://github.com/user2684/imou_life/wiki/Supported-models) a list with all the Imou models which have been tested and if they are working or not with the integration. Please feel free to report any missing model or additional information.
+
 ## Installation
 
 ### [HACS](https://hacs.xyz/) (recommended)
@@ -195,83 +199,7 @@ When using this option, please note the following:
 
 - The API for enabling/disabling push notification is currently limited to 10 times per day by Imou so do not perform too many consecutive changes. Keep also in mind that if you change the URL, sometimes it may take up to 5 minutes for a change to apply on Imou side
 - In Home Assistant you cannot have more than one webhook trigger with the same ID so customize the example above if you need to add any custom logic
-- Unfortunately HTTP requests sent by the Imou API server to Home Assistant are somehow malformed, causing HA to reject the request (404 error, without any evidence in the logs). A reverse proxy like NGINX in front of Home Assistant without any special configuration takes care of cleaning out the request, hence this is a requirement.
-
-**Reverse Proxy Configuration**
-
-If running Home Assistant in Supervised mode, you can install and configure the "Nginx Proxy Manager Add-on" which has been tested and works fine.
-Please note "NGINX Home Assistant SSL proxy Addon" instead is not able to handle the malformed requests sent by Imou.
-
-If you are instead using a custom nginx proxy, the following is a sample configuration `nginx.conf` file you can use. Please note before using it:
-
-- Replace `<home_assistant_ip>` with the IP address of your Home Assistance instance
-- If using SSL:
-  - Uncomment the commented lines
-  - Place your certificate, private key and dhparms files in a directory accessible by nginx (`/ssl` in the example below)
-  - If you don't have a dhparms file, generate one by running `openssl dhparam -dsaparam -out dhparams.pem 4096 > /dev/null`
-- If serving multiple domains, customize the `server_name` directive. In this case, ensure there is no other server block with a catchall `server_name _` directive otherwise the malformed requests sent by Imou will be routed somewhere else
-- If you need to debug the incoming requests, change `access_log /dev/stdout info` into `access_log /dev/stdout debug` and you will see the content of any POST requests
-
-```
-user  nginx;
-worker_processes  auto;
-
-error_log  stderr;
-pid        /var/run/nginx.pid;
-
-
-events {
-    worker_connections  1024;
-}
-
-
-http {
-    map $http_upgrade $connection_upgrade {
-        default upgrade;
-        ''      close;
-    }
-
-    server_tokens off;
-    server_names_hash_bucket_size 64;
-    log_format  info  '$remote_addr - $remote_user [$time_local] "$request" '
-                      '$status $body_bytes_sent "$http_referer" '
-                      '"$http_user_agent" "$http_x_forwarded_for"';
-    log_format debug '[$time_local] "$request" "$status" "$request_body"';
-
-    ssl_protocols TLSv1.2 TLSv1.3;
-    ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384;
-    ssl_prefer_server_ciphers off;
-
-    server {
-        server_name _;
-        ssl_session_timeout 1d;
-        ssl_session_cache shared:MozSSL:10m;
-        ssl_session_tickets off;
-        #ssl_certificate /ssl/fullchain.pem;
-        #ssl_certificate_key /ssl/privkey.pem;
-        #ssl_dhparam /ssl/dhparams.pem;
-
-        #listen 443 ssl http2;
-        listen 80;
-        add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
-
-        proxy_buffering off;
-
-        location /{
-            access_log /dev/stdout info;
-            proxy_pass http://<home_assistant_ip>:8123/;
-            proxy_set_header Host $host;
-            proxy_redirect http:// https://;
-            proxy_http_version 1.1;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection $connection_upgrade;
-        }
-
-    }
-
-}
-```
+- Unfortunately HTTP requests sent by the Imou API server to Home Assistant are somehow malformed, causing HA to reject the request (404 error, without any evidence in the logs). A reverse proxy like NGINX in front of Home Assistant without any special configuration takes care of cleaning out the request, hence this is a requirement. Instructions on how to configured it and examples are available [here](https://github.com/user2684/imou_life/wiki/Reverse-proxy-configuration-for-push-notifications).
 
 ### PTZ Controls
 
@@ -287,7 +215,8 @@ Presets are instead not apparently supported by the Imou APIs but could be imple
 
 ## Limitations / Known Issues
 
-- The Imou API does not provide a stream of configuration events, for this reason the component periodically polls the devices, meaning if you change anything from the Imou Life App, it could take a few minutes to be updated in HA. Use the "Refresh Data" button to refresh data for all the devices' sensors
+- The Imou API does not provide a stream of events, for this reason the integration periodically polls the devices to sync the configuration. So if you change anything from the Imou Life App, it could take a few minutes to be updated in HA. Use the "Refresh Data" button to refresh data for all the devices' sensors
+- Imou limits up to 5 the number of devices which can be controlled through a developer account (e.g. the method used by this integration). Additional devices are added successfully but they will throw a "APIError: FL1001: Insufficient remaining available licenses" error message whenever you try to interact. As a workaround, create another Imou account associated to a different e-mail address, take note of the new AppId and AppSecret, and bind the device there. Alternatively, you can also keep the device associated with the primary account, share it with the newly account and add it to HA through the integration
 - For every new device to be added, AppId and AppSecret are requested
 - Advanced options can be changed only after having added the device
 - Due to malformed requests sent by the Imou API server, in order for push notifications to work, Home Assistant must be behind a reverse proxy
@@ -325,6 +254,12 @@ logger:
 
 Bugs and feature requests can be reported through [Github Issues](https://github.com/user2684/imou_life/issues).
 When reporting bugs, ensure to include also diagnostics and debug logs. Please review those logs to redact any potential sensitive information before submitting the request.
+
+## Contributing
+
+Any contribution is more than welcome. Github is used to host the code, track issues and feature requests, as well as submitting pull requests.
+Detailed information on how the code is structured, how to setup a development environment and how to test your code before submitting pull requests is
+detailed [here](https://github.com/user2684/imou_life/wiki/How-to-contribute).
 
 ## Roadmap
 

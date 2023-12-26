@@ -8,7 +8,7 @@ on:
   pull_request:
 
 env:
-  DEFAULT_PYTHON: 3.9
+  DEFAULT_PYTHON: 3.11
 
 jobs:
   pre-commit:
@@ -41,7 +41,7 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.9]
+        python-version: [3.11]
     name: Run tests
     steps:
       - name: Check out code from GitHub
@@ -57,6 +57,7 @@ jobs:
       - name: Tests suite
         run: |
           pytest \
+            --asyncio-mode=auto \
             --timeout=9 \
             --durations=10 \
             -n auto \

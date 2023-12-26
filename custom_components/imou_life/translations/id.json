@@ -1,0 +1,52 @@
+{
+    "config": {
+      "step": {
+        "login": {
+          "title": "Masuk",
+          "data": {
+            "api_url": "URL API Base",
+            "app_id": "App ID Imou",
+            "app_secret": "App Secret Imou",
+            "enable_discover": "Cari perangkat terdaftar"
+          }
+        },
+        "discover": {
+          "title": "Perangkat Ditemukan",
+          "data": {
+            "discovered_device": "Pilih perangkat untuk ditambahkan:",
+            "device_name": "Ganti nama sebagai"
+          }
+        },
+        "manual": {
+          "title": "Tambah Perangkat",
+          "data": {
+            "device_id": "ID perangkat",
+            "device_name": "Ganti nama sebagai"
+          }
+        }
+      },
+      "error": {
+        "not_connected": "Tindakan diminta tetapi belum terhubung ke API",
+        "connection_failed": "Gagal terhubung ke API",
+        "invalid_configuration": "ID Aplikasi atau App Secret tidak valid",
+        "not_authorized": "Tidak diizinkan untuk beroperasi pada perangkat atau ID perangkat tidak valid",
+        "api_error": "Kesalahan API jarak jauh",
+        "invalid_reponse": "Respon API cacat atau tidak terduga",
+        "device_offline": "Perangkat tidak terhubung ke jaringan",
+        "generic_error": "Terjadi kesalahan yang tidak diketahui"
+      }
+    },
+    "options": {
+      "step": {
+        "init": {
+          "data": {
+            "scan_interval": "Interval pemindaian (detik)",
+            "api_timeout": "Waktu tunggu API (detik)",
+            "callback_url": "URL Callback",
+            "camera_wait_before_download": "Tunggu sebelum mengunduh snapshot kamera (detik)",
+            "wait_after_wakeup": "Tunggu setelah membangunkan perangkat dorman (detik)"
+          }
+        }
+      }
+    }
+  }
