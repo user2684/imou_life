@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.0.15] (2024-01-27)
+### Fixed
+- HACS failing installation: error 500 (#83 #84)
+
 ## [1.0.14] (2023-12-26)
 ### Added
 - French and Indonesian support
