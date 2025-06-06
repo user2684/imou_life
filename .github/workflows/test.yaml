@@ -8,7 +8,7 @@ on:
   pull_request:
 
 env:
-  DEFAULT_PYTHON: 3.11
+  DEFAULT_PYTHON: 3.12
 
 jobs:
   pre-commit:
@@ -41,7 +41,7 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.11]
+        python-version: [3.12]
     name: Run tests
     steps:
       - name: Check out code from GitHub
