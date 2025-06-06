@@ -1,4 +1,5 @@
 """Camera platform for Imou."""
+
 from collections.abc import Callable
 import logging
 

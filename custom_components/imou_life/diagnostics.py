@@ -1,4 +1,5 @@
 """Diagnostics support for imou_life."""
+
 from typing import Any
 
 from homeassistant.components.diagnostics import async_redact_data

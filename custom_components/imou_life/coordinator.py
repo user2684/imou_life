@@ -1,4 +1,5 @@
 """Class to manage fetching data from the API."""
+
 from datetime import timedelta
 import logging
 

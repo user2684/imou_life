@@ -1,4 +1,5 @@
 """Global fixtures for imou_life integration."""
+
 from unittest.mock import patch
 
 from imouapi.device import ImouDevice

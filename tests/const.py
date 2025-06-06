@@ -1,4 +1,5 @@
 """Constants for imou_life tests."""
+
 from custom_components.imou_life.const import (
     CONF_API_URL,
     CONF_APP_ID,

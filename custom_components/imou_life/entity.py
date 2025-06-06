@@ -1,4 +1,5 @@
 """entity sensor platform for Imou."""
+
 import logging
 
 from homeassistant.helpers.entity import async_generate_entity_id

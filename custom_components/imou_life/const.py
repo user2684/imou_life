@@ -1,4 +1,5 @@
 """Constants."""
+
 # Internal constants
 DOMAIN = "imou_life"
 PLATFORMS = ["switch", "sensor", "binary_sensor", "select", "button", "siren", "camera"]
