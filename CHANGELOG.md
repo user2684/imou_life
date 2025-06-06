@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.16] (2025-06-06)
+### Added
+- Disclaimer on the status of the integration
+### Fixed
+- async_forward_entry_setup() deprecation (#124)
+- Sets option flow config_entry explicitly deprecation
+- Config alias deprecation
+- async_add_job() deprecation
+
 ## [1.0.15] (2024-01-27)
 ### Fixed
 - HACS failing installation: error 500 (#83 #84)

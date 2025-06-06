@@ -1,4 +1,5 @@
 """Xonfig flow for Imou."""
+
 import logging
 
 from homeassistant import config_entries
@@ -197,19 +198,19 @@ class ImouFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
     @callback
     def async_get_options_flow(config_entry):
         """Return Option Handerl."""
-        return ImouOptionsFlowHandler(config_entry)
+        return ImouOptionsFlowHandler()
 
 
 class ImouOptionsFlowHandler(config_entries.OptionsFlow):
     """Config flow options handler for imou."""
 
-    def __init__(self, config_entry):
-        """Initialize options flow."""
-        self.config_entry = config_entry
-        self.options = dict(config_entry.options)
+    @property
+    def config_entry(self):
+        return self.hass.config_entries.async_get_entry(self.handler)
 
     async def async_step_init(self, user_input=None):  # pylint: disable=unused-argument
         """Manage the options."""
+        self.options = dict(self.config_entry.options)
         if user_input is not None:
             self.options.update(user_input)
             return await self._update_options()

@@ -4,6 +4,16 @@
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/integration)
 [![Donate](https://img.shields.io/badge/donate-BuyMeCoffee-yellow.svg)](https://www.buymeacoffee.com/user2684)
 
+**PLEASE NOTE this is an UNOFFICIAL integration, NOT supported or validated by Imou or linked in any way to Imou**.
+
+_This integration is the result of the analysis of the public documentation released by Imou for its open platform and created before the vendor published its own [official Home Assistant integration](https://github.com/Imou-OpenPlatform/Imou-Home-Assistant). Since this integration is based on information no more updated since 2021 it may not fully work with most recent devices and there is no way to support newer models since the documentation of the the APIs has not been made public by the vendor._
+
+_For this reason, I have decided to <ins>***stop actively developing the integration***</ins>. No new functionalities will be added or bugs fixed since it would require access to vendor's APIs which are neither public nor documented. Regardless, the integration is still supposed to work for those devices where it has been working so far. And I will keep the code up to date to ensure it will continue to run smoothly on newer version of Home Assistant._
+
+_The official integration, supported by the vendor, is available for download [here](https://github.com/Imou-OpenPlatform/Imou-Home-Assistant)._
+
+## Overview
+
 This Home Assistant component helps in interacting with devices registered with the Imou Life App and specifically enabling/disabling motion detection, siren, and other switches.
 
 Despite Imou webcams video streams can be integrated in Home Assistant through Onvif, the only way to interact with the device as if using the Imou Life App is to leverage the Imou API,

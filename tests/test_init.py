@@ -1,4 +1,5 @@
 """Test imou setup process."""
+
 from homeassistant.exceptions import ConfigEntryNotReady
 import pytest
 from pytest_homeassistant_custom_component.common import MockConfigEntry
@@ -19,7 +20,7 @@ async def test_setup_unload_and_reload_entry(hass, api_ok):
     """Test entry setup and unload."""
     # Create a mock entry so we don't have to go through config flow
     config_entry = MockConfigEntry(
-        domain=DOMAIN, data=MOCK_CONFIG_ENTRY, entry_id="test"
+        domain=DOMAIN, data=MOCK_CONFIG_ENTRY, entry_id="test", version=3
     )
     # test setup entry
     config_entry.add_to_hass(hass)

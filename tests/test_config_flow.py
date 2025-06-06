@@ -1,4 +1,5 @@
 """Test imou_life config flow."""
+
 from unittest.mock import patch
 
 from homeassistant import config_entries, data_entry_flow
@@ -30,12 +31,15 @@ from .const import (
 @pytest.fixture(autouse=True)
 def bypass_setup_fixture():
     """Prevent setup."""
-    with patch(
-        "custom_components.imou_life.async_setup",
-        return_value=True,
-    ), patch(
-        "custom_components.imou_life.async_setup_entry",
-        return_value=True,
+    with (
+        patch(
+            "custom_components.imou_life.async_setup",
+            return_value=True,
+        ),
+        patch(
+            "custom_components.imou_life.async_setup_entry",
+            return_value=True,
+        ),
     ):
         yield
 
@@ -48,14 +52,14 @@ async def test_discover_ok(hass, api_ok):
         DOMAIN, context={"source": config_entries.SOURCE_USER}
     )
     # Check that the config flow shows the login form as the first step
-    assert result["type"] == data_entry_flow.RESULT_TYPE_FORM
+    assert result["type"] == data_entry_flow.FlowResultType.FORM
     assert result["step_id"] == "login"
     # simulate the user entering app id, app secret and discover checked
     result = await hass.config_entries.flow.async_configure(
         result["flow_id"], user_input=MOCK_LOGIN_WITH_DISCOVER
     )
     # ensure a new form is requested
-    assert result["type"] == data_entry_flow.RESULT_TYPE_FORM
+    assert result["type"] == data_entry_flow.FlowResultType.FORM
     # get the next step in the flow
     next(
         flow
@@ -69,7 +73,7 @@ async def test_discover_ok(hass, api_ok):
         result["flow_id"], user_input=MOCK_CREATE_ENTRY_FROM_DISCOVER
     )
     # check that the config flow is complete and a new entry is created
-    assert result["type"] == data_entry_flow.RESULT_TYPE_CREATE_ENTRY
+    assert result["type"] == data_entry_flow.FlowResultType.CREATE_ENTRY
     assert result["data"][CONF_API_URL] == MOCK_LOGIN_WITH_DISCOVER[CONF_API_URL]
     assert result["data"][CONF_APP_ID] == MOCK_LOGIN_WITH_DISCOVER[CONF_APP_ID]
     assert result["data"][CONF_APP_SECRET] == MOCK_LOGIN_WITH_DISCOVER[CONF_APP_SECRET]
@@ -89,7 +93,7 @@ async def test_login_error(hass, api_invalid_app_id):
     result = await hass.config_entries.flow.async_configure(
         result["flow_id"], user_input=MOCK_LOGIN_WITH_DISCOVER
     )
-    assert result["type"] == data_entry_flow.RESULT_TYPE_FORM
+    assert result["type"] == data_entry_flow.FlowResultType.FORM
     assert result["errors"] == {"base": "invalid_configuration"}
 
 
@@ -101,14 +105,14 @@ async def test_manual_ok(hass, api_ok):
         DOMAIN, context={"source": config_entries.SOURCE_USER}
     )
     # Check that the config flow shows the login form as the first step
-    assert result["type"] == data_entry_flow.RESULT_TYPE_FORM
+    assert result["type"] == data_entry_flow.FlowResultType.FORM
     assert result["step_id"] == "login"
     # simulate the user entering app id, app secret and discover checked
     result = await hass.config_entries.flow.async_configure(
         result["flow_id"], user_input=MOCK_LOGIN_WITHOUT_DISCOVER
     )
     # ensure a new form is requested
-    assert result["type"] == data_entry_flow.RESULT_TYPE_FORM
+    assert result["type"] == data_entry_flow.FlowResultType.FORM
     # get the next step in the flow
     next(
         flow
@@ -122,7 +126,7 @@ async def test_manual_ok(hass, api_ok):
         result["flow_id"], user_input=MOCK_CREATE_ENTRY_FROM_MANUAL
     )
     # check that the config flow is complete and a new entry is created
-    assert result["type"] == data_entry_flow.RESULT_TYPE_CREATE_ENTRY
+    assert result["type"] == data_entry_flow.FlowResultType.CREATE_ENTRY
     assert result["data"][CONF_API_URL] == MOCK_LOGIN_WITHOUT_DISCOVER[CONF_API_URL]
     assert result["data"][CONF_APP_ID] == MOCK_LOGIN_WITHOUT_DISCOVER[CONF_APP_ID]
     assert (
@@ -143,7 +147,7 @@ async def test_options_flow(hass):
     await hass.config_entries.async_setup(entry.entry_id)
     result = await hass.config_entries.options.async_init(entry.entry_id)
     # Verify that the first options step is a user form
-    assert result["type"] == data_entry_flow.RESULT_TYPE_FORM
+    assert result["type"] == data_entry_flow.FlowResultType.FORM
     assert result["step_id"] == "init"
     # Enter some fake data into the form
     result = await hass.config_entries.options.async_configure(
@@ -155,7 +159,7 @@ async def test_options_flow(hass):
         },
     )
     # Verify that the flow finishes
-    assert result["type"] == data_entry_flow.RESULT_TYPE_CREATE_ENTRY
+    assert result["type"] == data_entry_flow.FlowResultType.CREATE_ENTRY
     # Verify that the options were updated
     assert entry.options[OPTION_SCAN_INTERVAL] == 30
     assert entry.options[OPTION_API_TIMEOUT] == "20"
